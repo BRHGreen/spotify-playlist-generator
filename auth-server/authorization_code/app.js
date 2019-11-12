@@ -192,5 +192,36 @@ app.post("/track-names", function(req, res) {
     .catch("error >>>", console.error);
 });
 
+app.post("/search-for-tracks", function(req, res) {
+  const options = {
+    headers: {
+      Authorization: "Bearer " + req.body.accessToken
+    }
+  };
+  console.log("TCL: req.body.tracksToSearchFor", req.body.tracksToSearchFor);
+
+  console.log("TCL: req.body", req.body);
+  const title = req.body.tracks[0].title;
+  const artist = req.body.tracks[0].artist;
+
+  const url = `https://api.spotify.com/v1/search?q=track:${title}%20artist:${artist}&type=track&market=GB`;
+
+  console.log("TCL: options", options);
+  axios
+    .get(url, options)
+    // .all(
+    //   req.body.tracksToSearchFor.map(({ title, artist }) => {
+    //     const url = `https://api.spotify.com/v1/search?q=track:${title}%20artist:${artist}&type=track&market=GB`;
+    //     console.log("TCL: url", url);
+    //     axios.get(url, options);
+    //   })
+    // )
+    .then(response => {
+      console.log("Artists", response);
+      res.status(200).send(response.data);
+    })
+    .catch("error >>>", console.error);
+});
+
 console.log("Listening on 8888");
 app.listen(8888);

@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import "./App.css";
+import axios from "axios";
 import TrackNames from "./TrackNames";
 
 import SpotifyWebApi from "spotify-web-api-js";
@@ -15,7 +16,8 @@ class App extends Component {
     }
     this.state = {
       loggedIn: token ? true : false,
-      nowPlaying: { name: "Not Checked", albumArt: "" }
+      tracks: null,
+      accessToken: token
     };
   }
   getHashParams() {
@@ -31,36 +33,54 @@ class App extends Component {
     return hashParams;
   }
 
-  getNowPlaying() {
-    spotifyApi.getMyCurrentPlaybackState().then(response => {
-      console.log("TCL: App -> getNowPlaying -> response", response);
-      this.setState({
-        nowPlaying: {
-          name: response.item.name,
-          albumArt: response.item.album.images[0].url
+  searchSpotify() {
+    console.log("TCL: App -> searchSpotify -> token", this.state.accessToken);
+    axios
+      .post("http://localhost:8888/search-for-tracks", {
+        tracks: this.state.tracks,
+        accessToken: this.state.accessToken
+      })
+      .then(data => {
+        console.log("TCL: App -> searchSpotify -> data", data);
+        if (data.tracks && data.tracks.items.length > 0) {
+          console.log("TCL: data", data.tracks);
         }
+      })
+      .catch(function(error) {
+        console.log("error", error);
       });
-    });
   }
+
+  getTracks = () => {
+    const junoUrl =
+      "https://www.junodownload.com/charts/mixcloud/worldwidefm/whats-next-with-laurent-garnier-12-02-19/526134755?timein=579&utm_source=Mixcloud&utm_medium=html5&utm_campaign=mixcloud&ref=mixcloud&a_cid=44db7396";
+    axios
+      .post("http://localhost:8888/track-names", { junoUrl })
+      .then(response => {
+        console.log("TCL: TrackNames -> getTracks -> response", response);
+        if (response.status === 200) {
+          this.setState({ tracks: response.data });
+          this.forceUpdate();
+        }
+      })
+      .catch(function(error) {
+        console.log("error", error);
+      });
+  };
+
   render() {
     return (
       <div className="App">
-        <a href="http://localhost:8888"> Login to Spotify </a>
-        <div>Now Playing: {this.state.nowPlaying.name}</div>
-        <div>
-          <img src={this.state.nowPlaying.albumArt} style={{ height: 150 }} />
-        </div>
-        <TrackNames
-          item={this.state.item}
-          is_playing={this.state.is_playing}
-          progress_ms={this.progress_ms}
-        />
+        {!this.state.loggedIn && (
+          <a href="http://localhost:8888"> Login to Spotify </a>
+        )}
+        <TrackNames getTracks={this.getTracks} tracks={this.state.tracks} />
         {this.state.loggedIn && (
           <button
             className="btn btn-secondary"
-            onClick={() => this.getNowPlaying()}
+            onClick={() => this.searchSpotify()}
           >
-            Check Now Playing
+            Search spotify
           </button>
         )}
       </div>
