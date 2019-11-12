@@ -200,25 +200,19 @@ app.post("/search-for-tracks", function(req, res) {
   };
   console.log("TCL: req.body.tracksToSearchFor", req.body.tracksToSearchFor);
 
-  console.log("TCL: req.body", req.body);
-  const title = req.body.tracks[0].title;
-  const artist = req.body.tracks[0].artist;
+  const tracksToGet = req.body.tracks.map(track => {
+    const url = `https://api.spotify.com/v1/search?q=track:${track.title}%20artist:${track.artist}&type=track&market=GB`;
+    return axios.get(url, options);
+  });
+  console.log("TCL: tracksToGet", tracksToGet);
 
-  const url = `https://api.spotify.com/v1/search?q=track:${title}%20artist:${artist}&type=track&market=GB`;
-
-  console.log("TCL: options", options);
   axios
-    .get(url, options)
-    // .all(
-    //   req.body.tracksToSearchFor.map(({ title, artist }) => {
-    //     const url = `https://api.spotify.com/v1/search?q=track:${title}%20artist:${artist}&type=track&market=GB`;
-    //     console.log("TCL: url", url);
-    //     axios.get(url, options);
-    //   })
-    // )
+    .all(tracksToGet)
     .then(response => {
-      console.log("Artists", response);
-      res.status(200).send(response.data);
+      const tracksResponse = response.map(e => e.data.tracks);
+      console.log("TCL: tracksResponse", tracksResponse);
+
+      res.status(200).send(tracksResponse);
     })
     .catch("error >>>", console.error);
 });
