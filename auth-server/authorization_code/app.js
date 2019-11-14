@@ -198,10 +198,11 @@ app.post("/search-for-tracks", function(req, res) {
       Authorization: "Bearer " + req.body.accessToken
     }
   };
-  console.log("TCL: req.body.tracksToSearchFor", req.body.tracksToSearchFor);
+
+  console.log("TCL: req.body.tracks", req.body.tracks);
 
   const tracksToGet = req.body.tracks.map(track => {
-    const url = `https://api.spotify.com/v1/search?q=track:${track.title}%20artist:${track.artist}&type=track&market=GB`;
+    const url = `https://api.spotify.com/v1/search?q=track:${track.junoResult.title}%20artist:${track.junoResult.artist}&type=track&market=GB`;
     return axios.get(url, options);
   });
   console.log("TCL: tracksToGet", tracksToGet);
@@ -209,12 +210,49 @@ app.post("/search-for-tracks", function(req, res) {
   axios
     .all(tracksToGet)
     .then(response => {
-      const tracksResponse = response.map(e => e.data.tracks);
+      const tracksResponse = response.map((e, i) => ({
+        id: i,
+        spotifyTracks: e.data.tracks
+      }));
       console.log("TCL: tracksResponse", tracksResponse);
 
       res.status(200).send(tracksResponse);
     })
     .catch("error >>>", console.error);
+});
+
+app.post("/create-playlist", function(req, res) {
+  const options = {
+    headers: {
+      Authorization: "Bearer " + req.body.accessToken
+    },
+    data: {
+      name: req.body.playlistName,
+      public: false
+    }
+  };
+
+  console.log(">>>>", req.body);
+  axios
+    .get("https://api.spotify.com/v1/me", {
+      headers: {
+        Authorization: "Bearer " + req.body.accessToken
+      }
+    })
+    .then(response => {
+      // -H "Authorization: Bearer {your access token}" -H "Content-Type: application/json" --data "{\"name\":\"A New Playlist\", \"public\":false}"
+      console.log("TCL: response.data.id", response.data.id);
+      axios
+        .post(
+          `https://api.spotify.com/v1/users/${response.data.id}/playlists`,
+          options
+        )
+        .then(response2 => {
+          console.log("response2 >>>", response2);
+        })
+        .catch(err => console.log("err2>>>", err));
+    })
+    .catch(err => console.log("err>>>>", err));
 });
 
 console.log("Listening on 8888");

@@ -17,7 +17,9 @@ class App extends Component {
     this.state = {
       loggedIn: token ? true : false,
       tracks: null,
-      accessToken: token
+      accessToken: token,
+      trackForPlaylist: [],
+      playlistName: "bens-test-playlist"
     };
   }
   getHashParams() {
@@ -34,16 +36,21 @@ class App extends Component {
   }
 
   searchSpotify() {
-    console.log("TCL: App -> searchSpotify -> token", this.state.accessToken);
     axios
       .post("http://localhost:8888/search-for-tracks", {
         tracks: this.state.tracks,
         accessToken: this.state.accessToken
       })
-      .then(data => {
-        console.log("TCL: App -> searchSpotify -> data", data);
-        if (data.tracks && data.tracks.items.length > 0) {
-          console.log("TCL: data", data.tracks);
+      .then(res => {
+        if (res.data && res.data.length > 0) {
+          const newState = res.data.map(track => {
+            const result = this.state.tracks.find(e => e.id === track.id);
+            result.spotifyResult = track;
+            return result;
+          });
+          this.setState({ tracks: newState });
+          this.forceUpdate();
+          console.log(this.state);
         }
       })
       .catch(function(error) {
@@ -58,13 +65,47 @@ class App extends Component {
       .post("http://localhost:8888/track-names", { junoUrl })
       .then(response => {
         console.log("TCL: TrackNames -> getTracks -> response", response);
+        const tracks = response.data.map((track, i) => ({
+          id: i,
+          junoResult: track
+        }));
         if (response.status === 200) {
-          this.setState({ tracks: response.data });
+          this.setState({ tracks });
           this.forceUpdate();
         }
       })
       .catch(function(error) {
         console.log("error", error);
+      });
+  };
+
+  handleAddTrack = track => {
+    this.setState(state => ({
+      trackForPlaylist: [track, ...state.trackForPlaylist]
+    }));
+  };
+
+  handleRemoveTrack = trackId => {
+    this.setState(state => ({
+      trackForPlaylist: state.trackForPlaylist.filter(
+        track => track.id !== trackId
+      )
+    }));
+  };
+
+  createPlaylist = () => {
+    axios
+      .post("http://localhost:8888/create-playlist", {
+        playlistName: this.state.playlistName,
+        accessToken: this.state.accessToken
+      })
+      .then(data => {
+        console.log("TCL: createPlaylist -> data", data);
+        this.setState({ playlistCreateStaus: "success" });
+      })
+      .catch(err => {
+        console.log("TCL: createPlaylist -> err", err);
+        this.setState({ playlistCreateStaus: "fail" });
       });
   };
 
@@ -74,14 +115,47 @@ class App extends Component {
         {!this.state.loggedIn && (
           <a href="http://localhost:8888"> Login to Spotify </a>
         )}
-        <TrackNames getTracks={this.getTracks} tracks={this.state.tracks} />
+        {this.state.trackForPlaylist.length > 0 &&
+          this.state.trackForPlaylist.map((e, i) => {
+            return (
+              <div key={i}>
+                <span className="mr-1">
+                  <b className="mr-1">Track name:</b>
+                  {e.name}
+                </span>
+                <span>
+                  <b className="mr-1">Track id</b>
+                  {e.id}
+                </span>
+                <button
+                  className="btn btn-danger btn-sml"
+                  onClick={() => this.handleRemoveTrack(e.id)}
+                >
+                  x
+                </button>
+              </div>
+            );
+          })}
+        <TrackNames
+          getTracks={this.getTracks}
+          tracks={this.state.tracks}
+          handleAddTrack={this.handleAddTrack}
+        />
         {this.state.loggedIn && (
-          <button
-            className="btn btn-secondary"
-            onClick={() => this.searchSpotify()}
-          >
-            Search spotify
-          </button>
+          <React.Fragment>
+            <button
+              className="btn btn-secondary"
+              onClick={() => this.searchSpotify()}
+            >
+              Search spotify
+            </button>
+            <button
+              className="btn btn-secondary"
+              onClick={() => this.createPlaylist()}
+            >
+              Create playlist
+            </button>
+          </React.Fragment>
         )}
       </div>
     );
