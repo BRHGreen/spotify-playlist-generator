@@ -19,7 +19,7 @@ class App extends Component {
       tracks: null,
       accessToken: token,
       trackForPlaylist: [],
-      playlistName: "bens-test-playlist"
+      playlistName: "bens-test-playlist 2"
     };
   }
   getHashParams() {
