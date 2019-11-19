@@ -43,12 +43,14 @@ class App extends Component {
         accessToken: this.state.accessToken
       })
       .then(res => {
+        console.log("TCL: searchSpotify -> res", res.data);
         if (res.data && res.data.length > 0) {
           const newState = res.data.map(track => {
             const result = this.state.tracks.find(e => e.id === track.id);
             result.spotifyResult = track;
             return result;
           });
+          console.log("TCL: searchSpotify -> newState", newState);
           this.setState({ tracks: newState });
           this.forceUpdate();
           console.log(this.state);

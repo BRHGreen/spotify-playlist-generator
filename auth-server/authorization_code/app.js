@@ -187,8 +187,9 @@ app.post("/track-names", function(req, res) {
           trackArray.push({ artist, title });
         }
       });
+      console.log("TCL: trackArray[2]", trackArray[2]);
 
-      res.status(200).send([trackArray[0], trackArray[1]]); // the status 200 is the default one, but this is how you can simply change it
+      res.status(200).send([trackArray[0]]); // the status 200 is the default one, but this is how you can simply change it
     })
     .catch("error >>>", console.error);
 });
@@ -203,7 +204,13 @@ app.post("/search-for-tracks", function(req, res) {
   console.log("TCL: req.body.tracks", req.body.tracks);
 
   const tracksToGet = req.body.tracks.map(track => {
-    const url = `https://api.spotify.com/v1/search?q=track:${track.junoResult.title}%20artist:${track.junoResult.artist}&type=track&market=GB`;
+    const title = track.junoResult.title
+      .replace(/[()feat]/g, "")
+      .split(" ")
+      .map(word => word.trim())
+      .join("%20");
+    console.log("TCL: title", title);
+    const url = `https://api.spotify.com/v1/search?q=track:${title}%20artist:${track.junoResult.artist}&type=track&market=GB`;
     return axios.get(url, options);
   });
   console.log("TCL: tracksToGet", tracksToGet);
