@@ -189,7 +189,7 @@ app.post("/track-names", function(req, res) {
       });
       console.log("TCL: trackArray[2]", trackArray[2]);
 
-      res.status(200).send([trackArray[2]]); // the status 200 is the default one, but this is how you can simply change it
+      res.status(200).send(trackArray); // the status 200 is the default one, but this is how you can simply change it
     })
     .catch("error >>>", console.error);
 });
@@ -205,7 +205,7 @@ app.post("/search-for-tracks", function(req, res) {
 
   const tracksToGet = req.body.tracks.map(track => {
     const title = track.junoResult.title
-      .replace(/[()]|feat/g, "")
+      .replace(/[()]|feat|with/g, "")
       .split(" ")
       .map(word => word.trim())
       .join("%20");
