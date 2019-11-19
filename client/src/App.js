@@ -18,8 +18,9 @@ class App extends Component {
       loggedIn: token ? true : false,
       tracks: null,
       accessToken: token,
-      trackForPlaylist: [],
-      playlistName: "bens-test-playlist 2"
+      tracksForPlaylist: [],
+      playlistName: "bens-test-playlist 5",
+      playlistId: null
     };
   }
   getHashParams() {
@@ -81,23 +82,28 @@ class App extends Component {
 
   handleAddTrack = track => {
     this.setState(state => ({
-      trackForPlaylist: [track, ...state.trackForPlaylist]
+      tracksForPlaylist: [track, ...state.tracksForPlaylist]
     }));
   };
 
   handleRemoveTrack = trackId => {
     this.setState(state => ({
-      trackForPlaylist: state.trackForPlaylist.filter(
+      tracksForPlaylist: state.tracksForPlaylist.filter(
         track => track.id !== trackId
       )
     }));
   };
 
-  createPlaylist = () => {
+  addTracksToSpotifyPlaylist = () => {
+    // pass in playlist id if adding to existing playlist
+    // pass in playlist name if adding to new playlist
+    const trackUris = this.state.tracksForPlaylist.map(track => track.uri);
     axios
       .post("http://localhost:8888/create-playlist", {
         playlistName: this.state.playlistName,
-        accessToken: this.state.accessToken
+        playlistId: this.state.playlistId,
+        accessToken: this.state.accessToken,
+        trackUris
       })
       .then(data => {
         console.log("TCL: createPlaylist -> data", data);
@@ -110,13 +116,14 @@ class App extends Component {
   };
 
   render() {
+    console.log("TCL: render -> this.state", this.state);
     return (
       <div className="App">
         {!this.state.loggedIn && (
           <a href="http://localhost:8888"> Login to Spotify </a>
         )}
-        {this.state.trackForPlaylist.length > 0 &&
-          this.state.trackForPlaylist.map((e, i) => {
+        {this.state.tracksForPlaylist.length > 0 &&
+          this.state.tracksForPlaylist.map((e, i) => {
             return (
               <div key={i}>
                 <span className="mr-1">
@@ -151,7 +158,7 @@ class App extends Component {
             </button>
             <button
               className="btn btn-secondary"
-              onClick={() => this.createPlaylist()}
+              onClick={() => this.addTracksToSpotifyPlaylist()}
             >
               Create playlist
             </button>

@@ -222,51 +222,66 @@ app.post("/search-for-tracks", function(req, res) {
 });
 
 app.post("/create-playlist", function(req, res) {
-  console.log(">>>>", req.body);
-  const data = {
-    name: req.body.playlistName,
-    public: false
-  };
-  // const options = {
-  //   headers: {
-  //     Authorization: "Bearer " + req.body.accessToken,
-  //     "Content-Type": "application/json"
-  //   },
-  //   data
-  // };
-  var options = {
-    url: "https://api.spotify.com/v1/users/benedictgreen/playlists",
-
-    body: JSON.stringify({
-      name: req.body.playlistName,
-      public: false
-    }),
-    dataType: "json",
-    // json: true, // dataType: json = json: true
+  const getOptions = {
+    url: "https://api.spotify.com/v1/me",
     headers: {
-      Authorization: "Bearer " + req.body.accessToken,
-      "Content-Type": "application/json"
+      Authorization: "Bearer " + req.body.accessToken
     }
   };
 
-  request.post(options, function(error, response, body) {
-    console.log("TCL: body", body);
-    console.log("TCL: response", response);
+  request.get(getOptions, function(error, response, body) {
     if (!error && response.statusCode === 200) {
-      console.log("TCL: body", body);
-      res.send({
-        access_token: body
-      });
+      console.log("TCL: req.body.playlistId", req.body.playlistId);
+      if (req.body.playlistId) {
+        createPlaylist(req.body.playlistId);
+      } else {
+        const parsedBody = JSON.parse(body);
+        const createOptions = {
+          url: `https://api.spotify.com/v1/users/${parsedBody.id}/playlists`,
+          body: JSON.stringify({
+            name: req.body.playlistName,
+            public: false
+          }),
+          dataType: "json",
+          headers: {
+            Authorization: "Bearer " + req.body.accessToken,
+            "Content-Type": "application/json"
+          }
+        };
+        request.post(createOptions, function(error, response, body) {
+          const parsedBody = JSON.parse(body);
+          if (!error) {
+            createPlaylist(parsedBody.id);
+          } else {
+            console.log("error creating playlist", error);
+          }
+        });
+      }
+
+      function createPlaylist(playlistId) {
+        const updateOptions = {
+          url: `https://api.spotify.com/v1/playlists/${playlistId}/tracks`,
+          body: JSON.stringify({
+            uris: req.body.trackUris
+          }),
+          dataType: "json",
+          headers: {
+            Authorization: "Bearer " + req.body.accessToken,
+            "Content-Type": "application/json"
+          }
+        };
+        request.post(updateOptions, function(error, response, body) {
+          if (!error) {
+            console.log("Success. Tracks were added to playlist", body);
+          } else {
+            console.log("error adding tracks to playlist", error);
+          }
+        });
+      }
     } else {
-      console.log("TCL: error", error);
+      console.log("error getting user ID", error);
     }
   });
-  // axios
-  //   .post(`https://api.spotify.com/v1/users/benedictgreen/playlists`, options)
-  //   .then(response2 => {
-  //     console.log("response2 >>>", response2);
-  //   })
-  //   .catch(err => console.log("err2>>>", err));
 });
 
 console.log("Listening on 8888");
