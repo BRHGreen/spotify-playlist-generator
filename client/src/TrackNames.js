@@ -53,9 +53,6 @@ const TrackNames = props => {
           )}
         </ul>
       )}
-      <button className="btn btn-primary" onClick={props.getTracks}>
-        Get tracks
-      </button>
     </div>
   );
 };

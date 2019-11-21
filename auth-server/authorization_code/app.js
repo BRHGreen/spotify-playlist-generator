@@ -203,9 +203,9 @@ app.post("/search-for-tracks", function(req, res) {
 
   console.log("TCL: req.body.tracks", req.body.tracks);
 
-  const tracksToGet = req.body.tracks.map(track => {
+  const tracksToGet = req.body.tracksFromJuno.map(track => {
     const title = track.junoResult.title
-      .replace(/[()]|feat|with/g, "")
+      .replace(/[()&']|feat|with/g, "")
       .split(" ")
       .map(word => word.trim())
       .join("%20");

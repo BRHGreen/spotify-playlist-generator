@@ -16,9 +16,11 @@ class App extends Component {
     }
     this.state = {
       loggedIn: token ? true : false,
-      tracks: null,
+      junoUrl:
+        "https://www.junodownload.com/charts/mixcloud/cedric-lassonde/cw-batb-sept-19/536662218?timein=0&utm_source=Mixcloud&utm_medium=html5&utm_campaign=mixcloud&ref=mixcloud&a_cid=44db7396",
+      tracksFromJuno: [],
       accessToken: token,
-      tracksForPlaylist: [],
+      tracksForSpotifyPlaylist: [],
       playlistName: "bens-test-playlist 5",
       playlistId: null
     };
@@ -39,19 +41,21 @@ class App extends Component {
   searchSpotify() {
     axios
       .post("http://localhost:8888/search-for-tracks", {
-        tracks: this.state.tracks,
+        tracksFromJuno: this.state.tracksFromJuno,
         accessToken: this.state.accessToken
       })
       .then(res => {
         console.log("TCL: searchSpotify -> res", res.data);
         if (res.data && res.data.length > 0) {
           const newState = res.data.map(track => {
-            const result = this.state.tracks.find(e => e.id === track.id);
+            const result = this.state.tracksFromJuno.find(
+              e => e.id === track.id
+            );
             result.spotifyResult = track;
             return result;
           });
           console.log("TCL: searchSpotify -> newState", newState);
-          this.setState({ tracks: newState });
+          this.setState({ tracksFromJuno: newState });
           this.forceUpdate();
           console.log(this.state);
         }
@@ -62,18 +66,17 @@ class App extends Component {
   }
 
   getTracks = () => {
-    const junoUrl =
-      "https://www.junodownload.com/charts/mixcloud/worldwidefm/whats-next-with-laurent-garnier-12-02-19/526134755?timein=579&utm_source=Mixcloud&utm_medium=html5&utm_campaign=mixcloud&ref=mixcloud&a_cid=44db7396";
+    const { junoUrl } = this.state;
     axios
       .post("http://localhost:8888/track-names", { junoUrl })
       .then(response => {
         console.log("TCL: TrackNames -> getTracks -> response", response);
-        const tracks = response.data.map((track, i) => ({
+        const tracksFromJuno = response.data.map((track, i) => ({
           id: i,
           junoResult: track
         }));
         if (response.status === 200) {
-          this.setState({ tracks });
+          this.setState({ tracksFromJuno });
           this.forceUpdate();
         }
       })
@@ -84,13 +87,13 @@ class App extends Component {
 
   handleAddTrack = track => {
     this.setState(state => ({
-      tracksForPlaylist: [track, ...state.tracksForPlaylist]
+      tracksForSpotifyPlaylist: [track, ...state.tracksForSpotifyPlaylist]
     }));
   };
 
   handleRemoveTrack = trackId => {
     this.setState(state => ({
-      tracksForPlaylist: state.tracksForPlaylist.filter(
+      tracksForSpotifyPlaylist: state.tracksForSpotifyPlaylist.filter(
         track => track.id !== trackId
       )
     }));
@@ -99,7 +102,9 @@ class App extends Component {
   addTracksToSpotifyPlaylist = () => {
     // pass in playlist id if adding to existing playlist
     // pass in playlist name if adding to new playlist
-    const trackUris = this.state.tracksForPlaylist.map(track => track.uri);
+    const trackUris = this.state.tracksForSpotifyPlaylist.map(
+      track => track.uri
+    );
     axios
       .post("http://localhost:8888/create-playlist", {
         playlistName: this.state.playlistName,
@@ -119,13 +124,17 @@ class App extends Component {
 
   render() {
     console.log("TCL: render -> this.state", this.state);
+    const {
+      loggedIn,
+      tracksForSpotifyPlaylist,
+      tracksFromJuno,
+      junoUrl
+    } = this.state;
     return (
       <div className="App">
-        {!this.state.loggedIn && (
-          <a href="http://localhost:8888"> Login to Spotify </a>
-        )}
-        {this.state.tracksForPlaylist.length > 0 &&
-          this.state.tracksForPlaylist.map((e, i) => {
+        {!loggedIn && <a href="http://localhost:8888"> Login to Spotify </a>}
+        {tracksForSpotifyPlaylist.length > 0 &&
+          tracksForSpotifyPlaylist.map((e, i) => {
             return (
               <div key={i}>
                 <span className="mr-1">
@@ -147,25 +156,33 @@ class App extends Component {
           })}
         <TrackNames
           getTracks={this.getTracks}
-          tracks={this.state.tracks}
+          tracks={tracksFromJuno}
           handleAddTrack={this.handleAddTrack}
         />
-        {this.state.loggedIn && (
-          <React.Fragment>
-            <button
-              className="btn btn-secondary"
-              onClick={() => this.searchSpotify()}
-            >
-              Search spotify
-            </button>
-            <button
-              className="btn btn-secondary"
-              onClick={() => this.addTracksToSpotifyPlaylist()}
-            >
-              Create playlist
-            </button>
-          </React.Fragment>
-        )}
+
+        <React.Fragment>
+          <button
+            disabled={!junoUrl}
+            className="btn btn-primary"
+            onClick={this.getTracks}
+          >
+            Get tracks
+          </button>
+          <button
+            disabled={tracksFromJuno.length <= 0 || !loggedIn}
+            className="btn btn-secondary"
+            onClick={() => this.searchSpotify()}
+          >
+            Search spotify
+          </button>
+          <button
+            disabled={tracksForSpotifyPlaylist.length <= 0 || !loggedIn}
+            className="btn btn-secondary"
+            onClick={() => this.addTracksToSpotifyPlaylist()}
+          >
+            Create Spotify playlist
+          </button>
+        </React.Fragment>
       </div>
     );
   }
