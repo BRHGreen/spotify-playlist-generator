@@ -18,7 +18,7 @@ class App extends Component {
       loggedIn: token ? true : false,
       junoUrl:
         "https://www.junodownload.com/charts/mixcloud/cedric-lassonde/cw-batb-sept-19/536662218?timein=0&utm_source=Mixcloud&utm_medium=html5&utm_campaign=mixcloud&ref=mixcloud&a_cid=44db7396",
-      tracksFromJuno: [],
+      tracksFromJuno: null,
       accessToken: token,
       tracksForSpotifyPlaylist: [],
       playlistName: "bens-test-playlist 5",
@@ -45,7 +45,6 @@ class App extends Component {
         accessToken: this.state.accessToken
       })
       .then(res => {
-        console.log("TCL: searchSpotify -> res", res.data);
         if (res.data && res.data.length > 0) {
           const newState = res.data.map(track => {
             const result = this.state.tracksFromJuno.find(
@@ -59,7 +58,7 @@ class App extends Component {
         }
       })
       .catch(function(error) {
-        console.log("error", error);
+        console.error("error", error);
       });
   }
 
@@ -73,12 +72,15 @@ class App extends Component {
           junoResult: track
         }));
         if (response.status === 200) {
-          this.setState({ tracksFromJuno });
+          // TO DO: set state for whole array
+          this.setState({
+            tracksFromJuno: [tracksFromJuno[0], tracksFromJuno[1]]
+          });
           this.forceUpdate();
         }
       })
       .catch(function(error) {
-        console.log("error", error);
+        console.error("error", error);
       });
   };
 
@@ -110,17 +112,14 @@ class App extends Component {
         trackUris
       })
       .then(data => {
-        console.log("TCL: createPlaylist -> data", data);
         this.setState({ playlistCreateStaus: "success" });
       })
       .catch(err => {
-        console.log("TCL: createPlaylist -> err", err);
         this.setState({ playlistCreateStaus: "fail" });
       });
   };
 
   render() {
-    console.log("TCL: render -> this.state", this.state);
     const {
       loggedIn,
       tracksForSpotifyPlaylist,
@@ -166,7 +165,9 @@ class App extends Component {
             Get tracks
           </button>
           <button
-            disabled={tracksFromJuno.length <= 0 || !loggedIn}
+            disabled={
+              !tracksFromJuno || tracksFromJuno.length <= 0 || !loggedIn
+            }
             className="btn btn-secondary"
             onClick={() => this.searchSpotify()}
           >
