@@ -4,6 +4,7 @@ import axios from "axios";
 import TrackNames from "./TrackNames";
 import Playlist from "./Playlist";
 import SearchButtons from "./SearchButtons";
+import UrlInput from "./UrlInput";
 
 import SpotifyWebApi from "spotify-web-api-js";
 const spotifyApi = new SpotifyWebApi();
@@ -18,8 +19,7 @@ class App extends Component {
     }
     this.state = {
       loggedIn: token ? true : false,
-      junoUrl:
-        "https://www.junodownload.com/charts/mixcloud/cedric-lassonde/cw-batb-sept-19/536662218?timein=0&utm_source=Mixcloud&utm_medium=html5&utm_campaign=mixcloud&ref=mixcloud&a_cid=44db7396",
+      junoUrl: "",
       tracksFromJuno: null,
       accessToken: token,
       tracksForSpotifyPlaylist: [],
@@ -87,8 +87,9 @@ class App extends Component {
   };
 
   handleAddTrack = track => {
-    console.log("TCL: App -> track", track);
-    console.log("TCL: App -> tracksFromJuno", this.state.tracksFromJuno);
+    /*
+    TODO remove tracks from juno list when added to spotify list
+    */
     this.setState(state => ({
       tracksForSpotifyPlaylist: [track, ...state.tracksForSpotifyPlaylist]
     }));
@@ -121,8 +122,17 @@ class App extends Component {
       });
   };
 
+  handleOnChange = e => {
+    this.setState({ junoUrl: e.target.value });
+  };
+
   render() {
-    const { loggedIn, tracksForSpotifyPlaylist, tracksFromJuno } = this.state;
+    const {
+      loggedIn,
+      tracksForSpotifyPlaylist,
+      tracksFromJuno,
+      junoUrl
+    } = this.state;
 
     const rowClass = classnames({
       row: tracksForSpotifyPlaylist.length > 0
@@ -130,7 +140,16 @@ class App extends Component {
 
     return (
       <div className="App py-2">
-        {!loggedIn && <a href="http://localhost:8888"> Login to Spotify </a>}
+        {!loggedIn && (
+          <a className="m-2" href="http://localhost:8888">
+            {" "}
+            Login to Spotify{" "}
+          </a>
+        )}
+        <UrlInput
+          junoUrl={junoUrl}
+          handleOnChange={e => this.handleOnChange(e)}
+        />
         <SearchButtons
           {...this.state}
           getTracks={this.getTracks}

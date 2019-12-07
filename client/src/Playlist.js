@@ -18,7 +18,7 @@ const Playlist = props => {
             <div
               key={i}
               className={classnames(
-                "d-flex align-items-center justify-content-between border-bottom",
+                "d-flex align-items-center justify-content-between border-bottom mx-1",
                 { "bg-light": i % 2 === 0 }
               )}
             >
