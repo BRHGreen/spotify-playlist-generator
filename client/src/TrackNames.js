@@ -4,7 +4,7 @@ import classnames from "classnames";
 
 const TrackNames = props => {
   const columnClass = classnames({
-    "col col-md-9 col-lg-9": props.tracksForSpotifyPlaylist.length > 0
+    "col col-md-8 col-lg-8": props.tracksForSpotifyPlaylist.length > 0
   });
   return (
     <div className={columnClass}>
@@ -15,7 +15,7 @@ const TrackNames = props => {
               return (
                 <li key={i} className="border-bottom list-group-item p-0">
                   <div className="d-flex bg-light p-2">
-                    <div className="d-flex align-items-center mr-1">
+                    <div className="d-flex align-items-center mr-2">
                       <b className="mr-1">Artitst: </b>
                       <span id="track-artist">{item.junoResult.artist}</span>
                     </div>
@@ -43,7 +43,7 @@ const TrackNames = props => {
                                   Your browser does not support the audio
                                   element.
                                 </audio>
-                                <div style={{ cursor: "pointer" }}>
+                                <div className="cursor-pointer">
                                   <Icon
                                     name="add"
                                     onClick={() =>

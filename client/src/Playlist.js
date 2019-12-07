@@ -1,26 +1,36 @@
 import React from "react";
+import classnames from "classnames";
+import { Icon } from "ray";
+
+const getArtists = artists => {
+  return artists.map(
+    (artist, i, arr) => `${artist.name} ${i + 2 > arr.length ? "" : ", "}`
+  );
+};
 
 const Playlist = props => {
   return (
     props.tracksForSpotifyPlaylist.length > 0 && (
-      <div className="col col-md-3 col-lg-3">
+      <div className="col col-md-4 col-lg-4">
+        <h5>Playlist name goes here</h5>
         {props.tracksForSpotifyPlaylist.map((e, i) => {
           return (
-            <div key={i}>
+            <div
+              key={i}
+              className={classnames(
+                "d-flex align-items-center justify-content-between border-bottom",
+                { "bg-light": i % 2 === 0 }
+              )}
+            >
               <span className="mr-1">
-                <b className="mr-1">Track name:</b>
-                {e.name}
+                {`${getArtists(e.artists)} - ${e.name}`}
               </span>
-              <span>
-                <b className="mr-1">Track id</b>
-                {e.id}
-              </span>
-              <button
-                className="btn btn-danger btn-sml"
-                onClick={() => props.handleRemoveTrack(e.id)}
-              >
-                x
-              </button>
+              <div className="cursor-pointer">
+                <Icon
+                  name="close"
+                  onClick={() => props.handleRemoveTrack(e.id)}
+                />
+              </div>
             </div>
           );
         })}

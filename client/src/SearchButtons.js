@@ -2,7 +2,7 @@ import React from "react";
 
 const SearchButtons = props => {
   return (
-    <div className="my-2">
+    <div className="m-2 ">
       <button
         disabled={!props.junoUrl}
         className="btn btn-primary mr-1"

@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import classnames from "classnames";
-import "./App.css";
 import axios from "axios";
 import TrackNames from "./TrackNames";
 import Playlist from "./Playlist";
@@ -88,6 +87,8 @@ class App extends Component {
   };
 
   handleAddTrack = track => {
+    console.log("TCL: App -> track", track);
+    console.log("TCL: App -> tracksFromJuno", this.state.tracksFromJuno);
     this.setState(state => ({
       tracksForSpotifyPlaylist: [track, ...state.tracksForSpotifyPlaylist]
     }));
@@ -140,7 +141,6 @@ class App extends Component {
         <div className="m-2">
           <div className={rowClass}>
             <TrackNames
-              getTracks={this.getTracks}
               tracks={tracksFromJuno}
               handleAddTrack={this.handleAddTrack}
               tracksForSpotifyPlaylist={tracksForSpotifyPlaylist}
