@@ -7,7 +7,6 @@ const TrackNames = props => {
         <ul>
           {props.tracks.length > 0 ? (
             props.tracks.map((item, i) => {
-              console.log("TCL: item", item);
               return (
                 <li key={i} className="border-bottom">
                   <div className="d-flex">
@@ -18,6 +17,7 @@ const TrackNames = props => {
                     <b className="mr-1">Title: </b>
                     <p id="track-title">{item.junoResult.title}</p>
                   </div>
+                  {console.log("TCL: item", item)}
                   {item.spotifyResult &&
                     item.spotifyResult.spotifyTracks.items.map(
                       (spotifyTrack, i) => {

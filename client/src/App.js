@@ -54,10 +54,8 @@ class App extends Component {
             result.spotifyResult = track;
             return result;
           });
-          console.log("TCL: searchSpotify -> newState", newState);
           this.setState({ tracksFromJuno: newState });
           this.forceUpdate();
-          console.log(this.state);
         }
       })
       .catch(function(error) {
@@ -70,7 +68,6 @@ class App extends Component {
     axios
       .post("http://localhost:8888/track-names", { junoUrl })
       .then(response => {
-        console.log("TCL: TrackNames -> getTracks -> response", response);
         const tracksFromJuno = response.data.map((track, i) => ({
           id: i,
           junoResult: track

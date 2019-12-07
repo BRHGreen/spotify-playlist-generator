@@ -115,7 +115,7 @@ app.get("/callback", function(req, res) {
 
         // use the access token to access the Spotify Web API
         request.get(options, function(error, response, body) {
-          console.log(body);
+          console.info(body);
         });
 
         // we can also pass the token to the browser to make requests from there
@@ -167,10 +167,8 @@ app.get("/refresh_token", function(req, res) {
 
 app.post("/track-names", function(req, res) {
   const url = req.body.junoUrl;
-  console.log("TCL: req.body", req.body);
   axios(url)
     .then(response => {
-      console.log("TCL: response", response);
       const html = response.data;
       const $ = cheerio.load(html);
       const tracks = $(".juno-chart > .jd-listing-item > .col-12");
@@ -187,7 +185,6 @@ app.post("/track-names", function(req, res) {
           trackArray.push({ artist, title });
         }
       });
-      console.log("TCL: trackArray[2]", trackArray[2]);
 
       res.status(200).send(trackArray); // the status 200 is the default one, but this is how you can simply change it
     })
@@ -201,31 +198,31 @@ app.post("/search-for-tracks", function(req, res) {
     }
   };
 
-  console.log("TCL: req.body.tracks", req.body.tracks);
-
   const tracksToGet = req.body.tracksFromJuno.map(track => {
-    const title = track.junoResult.title
-      .replace(/[()&']|feat|with/g, "")
-      .split(" ")
-      .map(word => word.trim())
-      .join("%20");
-    console.log("TCL: title", title);
-    const url = `https://api.spotify.com/v1/search?q=track:${title}%20artist:${track.junoResult.artist}&type=track&market=GB`;
+    const parseSearchTerms = string =>
+      string
+        .replace(/[^a-zA-Z0-9-]/g, " ")
+        .split(" ")
+        .filter(word => word !== "")
+        .join("%20");
+
+    const title = parseSearchTerms(track.junoResult.title);
+    const artist = parseSearchTerms(track.junoResult.artist);
+
+    const url = `https://api.spotify.com/v1/search?q=track:${title}%20artist:${artist}&type=track&market=GB`;
+
     return axios.get(url, options);
   });
-  console.log("TCL: tracksToGet", tracksToGet);
 
-  axios
-    .all(tracksToGet)
+  Promise.all(tracksToGet)
     .then(response => {
-      const tracksResponse = response.map((e, i) => ({
+      const tracksData = response.map((track, i) => ({
         id: i,
-        spotifyTracks: e.data.tracks
+        spotifyTracks: track.data.tracks
       }));
-
-      res.status(200).send(tracksResponse);
+      res.status(200).send(tracksData);
     })
-    .catch("error >>>", console.error);
+    .catch(err => console.error("error >>>", err));
 });
 
 app.post("/create-playlist", function(req, res) {
@@ -238,7 +235,6 @@ app.post("/create-playlist", function(req, res) {
 
   request.get(getOptions, function(error, response, body) {
     if (!error && response.statusCode === 200) {
-      console.log("TCL: req.body.playlistId", req.body.playlistId);
       if (req.body.playlistId) {
         createPlaylist(req.body.playlistId);
       } else {
@@ -260,7 +256,7 @@ app.post("/create-playlist", function(req, res) {
           if (!error) {
             createPlaylist(parsedBody.id);
           } else {
-            console.log("error creating playlist", error);
+            console.error("error creating playlist", error);
           }
         });
       }
@@ -279,17 +275,17 @@ app.post("/create-playlist", function(req, res) {
         };
         request.post(updateOptions, function(error, response, body) {
           if (!error) {
-            console.log("Success. Tracks were added to playlist", body);
+            console.info("Success. Tracks were added to playlist", body);
           } else {
-            console.log("error adding tracks to playlist", error);
+            console.error("error adding tracks to playlist", error);
           }
         });
       }
     } else {
-      console.log("error getting user ID", error);
+      console.error("error getting user ID", error);
     }
   });
 });
 
-console.log("Listening on 8888");
+console.info("Listening on 8888");
 app.listen(8888);
