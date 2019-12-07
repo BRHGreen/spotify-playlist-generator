@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import classnames from "classnames";
 import "./App.css";
 import axios from "axios";
 import TrackNames from "./TrackNames";
@@ -127,39 +128,12 @@ class App extends Component {
       junoUrl
     } = this.state;
     return (
-      <div className="App">
+      <div className="App py-2">
         {!loggedIn && <a href="http://localhost:8888"> Login to Spotify </a>}
-        {tracksForSpotifyPlaylist.length > 0 &&
-          tracksForSpotifyPlaylist.map((e, i) => {
-            return (
-              <div key={i}>
-                <span className="mr-1">
-                  <b className="mr-1">Track name:</b>
-                  {e.name}
-                </span>
-                <span>
-                  <b className="mr-1">Track id</b>
-                  {e.id}
-                </span>
-                <button
-                  className="btn btn-danger btn-sml"
-                  onClick={() => this.handleRemoveTrack(e.id)}
-                >
-                  x
-                </button>
-              </div>
-            );
-          })}
-        <TrackNames
-          getTracks={this.getTracks}
-          tracks={tracksFromJuno}
-          handleAddTrack={this.handleAddTrack}
-        />
-
-        <React.Fragment>
+        <div className="my-2">
           <button
             disabled={!junoUrl}
-            className="btn btn-primary"
+            className="btn btn-primary mr-1"
             onClick={this.getTracks}
           >
             Get tracks
@@ -168,7 +142,7 @@ class App extends Component {
             disabled={
               !tracksFromJuno || tracksFromJuno.length <= 0 || !loggedIn
             }
-            className="btn btn-secondary"
+            className="btn btn-secondary mr-1"
             onClick={() => this.searchSpotify()}
           >
             Search spotify
@@ -180,7 +154,51 @@ class App extends Component {
           >
             Create Spotify playlist
           </button>
-        </React.Fragment>
+        </div>
+
+        <div className="m-2">
+          <div
+            className={classnames({
+              row: tracksForSpotifyPlaylist.length > 0
+            })}
+          >
+            <div
+              className={classnames({
+                "col col-md-9 col-lg-9": tracksForSpotifyPlaylist.length > 0
+              })}
+            >
+              <TrackNames
+                getTracks={this.getTracks}
+                tracks={tracksFromJuno}
+                handleAddTrack={this.handleAddTrack}
+              />
+            </div>
+            {tracksForSpotifyPlaylist.length > 0 && (
+              <div className="col col-md-3 col-lg-3">
+                {tracksForSpotifyPlaylist.map((e, i) => {
+                  return (
+                    <div key={i}>
+                      <span className="mr-1">
+                        <b className="mr-1">Track name:</b>
+                        {e.name}
+                      </span>
+                      <span>
+                        <b className="mr-1">Track id</b>
+                        {e.id}
+                      </span>
+                      <button
+                        className="btn btn-danger btn-sml"
+                        onClick={() => this.handleRemoveTrack(e.id)}
+                      >
+                        x
+                      </button>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+          </div>
+        </div>
       </div>
     );
   }
