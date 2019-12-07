@@ -5,12 +5,12 @@ const TrackNames = props => {
   return (
     <div>
       {props.tracks && (
-        <ul class="list-group">
+        <ul className="list-group">
           {props.tracks.length > 0 ? (
             props.tracks.map((item, i) => {
               return (
                 <li key={i} className="border-bottom list-group-item p-0">
-                  <div className="d-flex m-0">
+                  <div className="d-flex m-0 bg-light ">
                     <div className="d-flex align-items-center">
                       <b className="mr-1">Artitst: </b>
                       <span id="track-artist">{item.junoResult.artist}</span>
@@ -24,11 +24,8 @@ const TrackNames = props => {
                     item.spotifyResult.spotifyTracks.items.map(
                       (spotifyTrack, i) => {
                         return (
-                          <React.Fragment>
-                            <div
-                              key={i}
-                              className="d-flex align-items-center justify-content-between"
-                            >
+                          <div key={spotifyTrack.id}>
+                            <div className="d-flex align-items-center justify-content-between">
                               <span className="mr-1">{spotifyTrack.name}</span>
                               <div className="m-0 d-flex align-items-center">
                                 <audio style={{ maxHeight: "25px" }} controls>
@@ -39,7 +36,10 @@ const TrackNames = props => {
                                   Your browser does not support the audio
                                   element.
                                 </audio>
-                                <div style={{ cursor: "pointer" }}>
+                                <div
+                                  className="m-0"
+                                  style={{ cursor: "pointer" }}
+                                >
                                   <Icon
                                     name="add"
                                     onClick={() =>
@@ -51,7 +51,7 @@ const TrackNames = props => {
                               </div>
                             </div>
                             <hr />
-                          </React.Fragment>
+                          </div>
                         );
                       }
                     )}
