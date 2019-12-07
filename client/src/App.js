@@ -3,6 +3,8 @@ import classnames from "classnames";
 import "./App.css";
 import axios from "axios";
 import TrackNames from "./TrackNames";
+import Playlist from "./Playlist";
+import SearchButtons from "./SearchButtons";
 
 import SpotifyWebApi from "spotify-web-api-js";
 const spotifyApi = new SpotifyWebApi();
@@ -39,7 +41,7 @@ class App extends Component {
     return hashParams;
   }
 
-  searchSpotify() {
+  searchSpotify = () => {
     axios
       .post("http://localhost:8888/search-for-tracks", {
         tracksFromJuno: this.state.tracksFromJuno,
@@ -61,7 +63,7 @@ class App extends Component {
       .catch(function(error) {
         console.error("error", error);
       });
-  }
+  };
 
   getTracks = () => {
     const { junoUrl } = this.state;
@@ -100,8 +102,6 @@ class App extends Component {
   };
 
   addTracksToSpotifyPlaylist = () => {
-    // pass in playlist id if adding to existing playlist
-    // pass in playlist name if adding to new playlist
     const trackUris = this.state.tracksForSpotifyPlaylist.map(
       track => track.uri
     );
@@ -121,82 +121,35 @@ class App extends Component {
   };
 
   render() {
-    const {
-      loggedIn,
-      tracksForSpotifyPlaylist,
-      tracksFromJuno,
-      junoUrl
-    } = this.state;
+    const { loggedIn, tracksForSpotifyPlaylist, tracksFromJuno } = this.state;
+
+    const rowClass = classnames({
+      row: tracksForSpotifyPlaylist.length > 0
+    });
+
     return (
       <div className="App py-2">
         {!loggedIn && <a href="http://localhost:8888"> Login to Spotify </a>}
-        <div className="my-2">
-          <button
-            disabled={!junoUrl}
-            className="btn btn-primary mr-1"
-            onClick={this.getTracks}
-          >
-            Get tracks
-          </button>
-          <button
-            disabled={
-              !tracksFromJuno || tracksFromJuno.length <= 0 || !loggedIn
-            }
-            className="btn btn-secondary mr-1"
-            onClick={() => this.searchSpotify()}
-          >
-            Search spotify
-          </button>
-          <button
-            disabled={tracksForSpotifyPlaylist.length <= 0 || !loggedIn}
-            className="btn btn-secondary"
-            onClick={() => this.addTracksToSpotifyPlaylist()}
-          >
-            Create Spotify playlist
-          </button>
-        </div>
+        <SearchButtons
+          {...this.state}
+          getTracks={this.getTracks}
+          addTracksToSpotifyPlaylist={this.addTracksToSpotifyPlaylist}
+          searchSpotify={this.searchSpotify}
+        />
 
         <div className="m-2">
-          <div
-            className={classnames({
-              row: tracksForSpotifyPlaylist.length > 0
-            })}
-          >
-            <div
-              className={classnames({
-                "col col-md-9 col-lg-9": tracksForSpotifyPlaylist.length > 0
-              })}
-            >
-              <TrackNames
-                getTracks={this.getTracks}
-                tracks={tracksFromJuno}
-                handleAddTrack={this.handleAddTrack}
-              />
-            </div>
-            {tracksForSpotifyPlaylist.length > 0 && (
-              <div className="col col-md-3 col-lg-3">
-                {tracksForSpotifyPlaylist.map((e, i) => {
-                  return (
-                    <div key={i}>
-                      <span className="mr-1">
-                        <b className="mr-1">Track name:</b>
-                        {e.name}
-                      </span>
-                      <span>
-                        <b className="mr-1">Track id</b>
-                        {e.id}
-                      </span>
-                      <button
-                        className="btn btn-danger btn-sml"
-                        onClick={() => this.handleRemoveTrack(e.id)}
-                      >
-                        x
-                      </button>
-                    </div>
-                  );
-                })}
-              </div>
-            )}
+          <div className={rowClass}>
+            <TrackNames
+              getTracks={this.getTracks}
+              tracks={tracksFromJuno}
+              handleAddTrack={this.handleAddTrack}
+              tracksForSpotifyPlaylist={tracksForSpotifyPlaylist}
+            />
+
+            <Playlist
+              handleRemoveTrack={this.handleRemoveTrack}
+              tracksForSpotifyPlaylist={tracksForSpotifyPlaylist}
+            />
           </div>
         </div>
       </div>

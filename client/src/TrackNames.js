@@ -1,9 +1,13 @@
 import React from "react";
 import { Icon } from "ray";
+import classnames from "classnames";
 
 const TrackNames = props => {
+  const columnClass = classnames({
+    "col col-md-9 col-lg-9": props.tracksForSpotifyPlaylist.length > 0
+  });
   return (
-    <div>
+    <div className={columnClass}>
       {props.tracks && (
         <ul className="list-group">
           {props.tracks.length > 0 ? (
@@ -11,7 +15,7 @@ const TrackNames = props => {
               return (
                 <li key={i} className="border-bottom list-group-item p-0">
                   <div className="d-flex bg-light p-2">
-                    <div className="d-flex align-items-center">
+                    <div className="d-flex align-items-center mr-1">
                       <b className="mr-1">Artitst: </b>
                       <span id="track-artist">{item.junoResult.artist}</span>
                     </div>
