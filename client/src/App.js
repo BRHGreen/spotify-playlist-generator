@@ -5,6 +5,7 @@ import TrackNames from "./TrackNames";
 import Playlist from "./Playlist";
 import SearchButtons from "./SearchButtons";
 import UrlInput from "./UrlInput";
+import { tracksForSpotifyPlaylistMock, tracksFromJunoMock } from "./mocks";
 
 import SpotifyWebApi from "spotify-web-api-js";
 const spotifyApi = new SpotifyWebApi();
@@ -76,7 +77,7 @@ class App extends Component {
         if (response.status === 200) {
           // TO DO: set state for whole array
           this.setState({
-            tracksFromJuno: [tracksFromJuno[0], tracksFromJuno[1]]
+            tracksFromJuno
           });
           this.forceUpdate();
         }
@@ -158,16 +159,22 @@ class App extends Component {
         />
 
         <div className="m-2">
-          <div className={rowClass}>
+          <div
+            // className={rowClass}
+            className="row"
+          >
             <TrackNames
-              tracks={tracksFromJuno}
+              tracksFromJuno={tracksFromJunoMock}
               handleAddTrack={this.handleAddTrack}
-              tracksForSpotifyPlaylist={tracksForSpotifyPlaylist}
+              tracksForSpotifyPlaylist={["bloop"]}
+              // tracksForSpotifyPlaylist={tracksForSpotifyPlaylist}
+              // tracksForSpotifyPlaylist={tracksForSpotifyPlaylist}
             />
 
             <Playlist
               handleRemoveTrack={this.handleRemoveTrack}
-              tracksForSpotifyPlaylist={tracksForSpotifyPlaylist}
+              tracksForSpotifyPlaylist={tracksForSpotifyPlaylistMock}
+              // tracksForSpotifyPlaylist={tracksForSpotifyPlaylist}
             />
           </div>
         </div>

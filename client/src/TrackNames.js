@@ -6,12 +6,13 @@ const TrackNames = props => {
   const columnClass = classnames({
     "col col-md-8 col-lg-8": props.tracksForSpotifyPlaylist.length > 0
   });
+  console.log("TCL: props.tracksFromJuno", props.tracksFromJuno);
   return (
     <div className={columnClass}>
-      {props.tracks && (
+      {props.tracksFromJuno && (
         <ul className="list-group">
-          {props.tracks.length > 0 ? (
-            props.tracks.map((item, i) => {
+          {props.tracksFromJuno.length > 0 ? (
+            props.tracksFromJuno.map((item, i) => {
               return (
                 <li key={i} className="border-bottom list-group-item p-0">
                   <div className="d-flex bg-light p-2">
@@ -25,39 +26,36 @@ const TrackNames = props => {
                     </div>
                   </div>
                   {item.spotifyResult &&
-                    item.spotifyResult.spotifyTracks.items.map(
-                      (spotifyTrack, i) => {
-                        return (
-                          <div
-                            key={spotifyTrack.id}
-                            className="p-2 border-bottom"
-                          >
-                            <div className="d-flex align-items-center justify-content-between">
-                              <span className="mr-1">{spotifyTrack.name}</span>
-                              <div className="d-flex align-items-center">
-                                <audio style={{ maxHeight: "25px" }} controls>
-                                  <source
-                                    src={spotifyTrack.preview_url}
-                                    type="audio/mpeg"
-                                  />
-                                  Your browser does not support the audio
-                                  element.
-                                </audio>
-                                <div className="cursor-pointer">
-                                  <Icon
-                                    name="add"
-                                    onClick={() =>
-                                      props.handleAddTrack(spotifyTrack)
-                                    }
-                                    className="ml-1"
-                                  />
-                                </div>
+                    item.spotifyResult.spotifyTracks.items.map(spotifyTrack => {
+                      return (
+                        <div
+                          key={spotifyTrack.id}
+                          className="p-2 border-bottom"
+                        >
+                          <div className="d-flex align-items-center justify-content-between">
+                            <span className="mr-1">{spotifyTrack.name}</span>
+                            <div className="d-flex align-items-center">
+                              <audio style={{ maxHeight: "25px" }} controls>
+                                <source
+                                  src={spotifyTrack.preview_url}
+                                  type="audio/mpeg"
+                                />
+                                Your browser does not support the audio element.
+                              </audio>
+                              <div className="cursor-pointer">
+                                <Icon
+                                  name="add"
+                                  onClick={() =>
+                                    props.handleAddTrack(spotifyTrack)
+                                  }
+                                  className="ml-1"
+                                />
                               </div>
                             </div>
                           </div>
-                        );
-                      }
-                    )}
+                        </div>
+                      );
+                    })}
                 </li>
               );
             })
