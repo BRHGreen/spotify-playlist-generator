@@ -4,7 +4,7 @@ import axios from "axios";
 import TrackNames from "./TrackNames";
 import Playlist from "./Playlist";
 import SearchButtons from "./SearchButtons";
-import UrlInput from "./UrlInput";
+import Input from "./Input";
 import { tracksForSpotifyPlaylistMock, tracksFromJunoMock } from "./mocks";
 
 import SpotifyWebApi from "spotify-web-api-js";
@@ -123,9 +123,12 @@ class App extends Component {
       });
   };
 
-  handleOnChange = e => {
+  handleJunoUrlChange = e => {
     this.setState({ junoUrl: e.target.value });
   };
+
+  handlePlaylistNameChange = () => {};
+  handlePlaylistNameInputChange = () => {};
 
   render() {
     const {
@@ -147,9 +150,10 @@ class App extends Component {
             Login to Spotify{" "}
           </a>
         )}
-        <UrlInput
+        <Input
+          label="Juno download URL"
           junoUrl={junoUrl}
-          handleOnChange={e => this.handleOnChange(e)}
+          handleOnChange={e => this.handleJunoUrlChange(e)}
         />
         <SearchButtons
           {...this.state}

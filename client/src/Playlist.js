@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import classnames from "classnames";
 import { Icon } from "ray";
 import { Waypoint } from "react-waypoint";
+import CreatableSelect from "react-select/creatable";
 
 const getArtists = artists => {
   return artists.map(
@@ -22,9 +23,16 @@ const Playlist = props => {
           onEnter={() => setContainerStyle({})}
         />
         <div style={containerStyle}>
-          <div>
-            <h5>Playlist name goes here</h5>
-          </div>
+          <CreatableSelect
+            isClearable
+            onChange={props.handlePlaylistNameChange}
+            onInputChange={props.handleInputChange}
+            options={[
+              { value: "hi", name: "hello" },
+              { value: "bye", name: "cheerio" }
+            ]}
+          />
+
           {props.tracksForSpotifyPlaylist.map((e, i) => {
             return (
               <div

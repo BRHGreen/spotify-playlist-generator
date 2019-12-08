@@ -1,10 +1,10 @@
 import React from "react";
 
-const UrlInput = props => (
+const Input = props => (
   <div className="input-group m-2">
     <div className="input-group-prepend">
       <span className="input-group-text" id="inputGroup-sizing-default">
-        Juno download URL
+        {props.label}
       </span>
     </div>
     <input
@@ -18,4 +18,4 @@ const UrlInput = props => (
   </div>
 );
 
-export default UrlInput;
+export default Input;
