@@ -12,7 +12,7 @@ export const tracksForSpotifyPlaylistMock = [
 ];
 export const tracksFromJunoMock = [
   {
-    junoResult: { artist: "test artist 1", artist: "test title 1" },
+    junoResult: { artist: "test artist 1", title: "test title 1" },
     spotifyResult: {
       spotifyTracks: {
         items: [
@@ -26,21 +26,7 @@ export const tracksFromJunoMock = [
     }
   },
   {
-    junoResult: { artist: "test artist 2", artist: "test title 2" },
-    spotifyResult: {
-      spotifyTracks: {
-        items: [
-          {
-            id: 2,
-            name: "test name 2",
-            preview_url: "www.preview.com"
-          }
-        ]
-      }
-    }
-  },
-  {
-    junoResult: { artist: "test artist 1", artist: "test title 1" },
+    junoResult: { artist: "test artist 1", title: "test title 1" },
     spotifyResult: {
       spotifyTracks: {
         items: [
@@ -54,21 +40,7 @@ export const tracksFromJunoMock = [
     }
   },
   {
-    junoResult: { artist: "test artist 2", artist: "test title 2" },
-    spotifyResult: {
-      spotifyTracks: {
-        items: [
-          {
-            id: 2,
-            name: "test name 2",
-            preview_url: "www.preview.com"
-          }
-        ]
-      }
-    }
-  },
-  {
-    junoResult: { artist: "test artist 1", artist: "test title 1" },
+    junoResult: { artist: "test artist 1", title: "test title 1" },
     spotifyResult: {
       spotifyTracks: {
         items: [
@@ -82,21 +54,7 @@ export const tracksFromJunoMock = [
     }
   },
   {
-    junoResult: { artist: "test artist 2", artist: "test title 2" },
-    spotifyResult: {
-      spotifyTracks: {
-        items: [
-          {
-            id: 2,
-            name: "test name 2",
-            preview_url: "www.preview.com"
-          }
-        ]
-      }
-    }
-  },
-  {
-    junoResult: { artist: "test artist 1", artist: "test title 1" },
+    junoResult: { artist: "test artist 1", title: "test title 1" },
     spotifyResult: {
       spotifyTracks: {
         items: [
@@ -110,21 +68,7 @@ export const tracksFromJunoMock = [
     }
   },
   {
-    junoResult: { artist: "test artist 2", artist: "test title 2" },
-    spotifyResult: {
-      spotifyTracks: {
-        items: [
-          {
-            id: 2,
-            name: "test name 2",
-            preview_url: "www.preview.com"
-          }
-        ]
-      }
-    }
-  },
-  {
-    junoResult: { artist: "test artist 1", artist: "test title 1" },
+    junoResult: { artist: "test artist 1", title: "test title 1" },
     spotifyResult: {
       spotifyTracks: {
         items: [
@@ -138,21 +82,7 @@ export const tracksFromJunoMock = [
     }
   },
   {
-    junoResult: { artist: "test artist 2", artist: "test title 2" },
-    spotifyResult: {
-      spotifyTracks: {
-        items: [
-          {
-            id: 2,
-            name: "test name 2",
-            preview_url: "www.preview.com"
-          }
-        ]
-      }
-    }
-  },
-  {
-    junoResult: { artist: "test artist 1", artist: "test title 1" },
+    junoResult: { artist: "test artist 1", title: "test title 1" },
     spotifyResult: {
       spotifyTracks: {
         items: [
@@ -166,21 +96,7 @@ export const tracksFromJunoMock = [
     }
   },
   {
-    junoResult: { artist: "test artist 2", artist: "test title 2" },
-    spotifyResult: {
-      spotifyTracks: {
-        items: [
-          {
-            id: 2,
-            name: "test name 2",
-            preview_url: "www.preview.com"
-          }
-        ]
-      }
-    }
-  },
-  {
-    junoResult: { artist: "test artist 1", artist: "test title 1" },
+    junoResult: { artist: "test artist 1", title: "test title 1" },
     spotifyResult: {
       spotifyTracks: {
         items: [
@@ -194,21 +110,7 @@ export const tracksFromJunoMock = [
     }
   },
   {
-    junoResult: { artist: "test artist 2", artist: "test title 2" },
-    spotifyResult: {
-      spotifyTracks: {
-        items: [
-          {
-            id: 2,
-            name: "test name 2",
-            preview_url: "www.preview.com"
-          }
-        ]
-      }
-    }
-  },
-  {
-    junoResult: { artist: "test artist 1", artist: "test title 1" },
+    junoResult: { artist: "test artist 1", title: "test title 1" },
     spotifyResult: {
       spotifyTracks: {
         items: [
@@ -222,21 +124,7 @@ export const tracksFromJunoMock = [
     }
   },
   {
-    junoResult: { artist: "test artist 2", artist: "test title 2" },
-    spotifyResult: {
-      spotifyTracks: {
-        items: [
-          {
-            id: 2,
-            name: "test name 2",
-            preview_url: "www.preview.com"
-          }
-        ]
-      }
-    }
-  },
-  {
-    junoResult: { artist: "test artist 1", artist: "test title 1" },
+    junoResult: { artist: "test artist 1", title: "test title 1" },
     spotifyResult: {
       spotifyTracks: {
         items: [
@@ -250,21 +138,7 @@ export const tracksFromJunoMock = [
     }
   },
   {
-    junoResult: { artist: "test artist 2", artist: "test title 2" },
-    spotifyResult: {
-      spotifyTracks: {
-        items: [
-          {
-            id: 2,
-            name: "test name 2",
-            preview_url: "www.preview.com"
-          }
-        ]
-      }
-    }
-  },
-  {
-    junoResult: { artist: "test artist 1", artist: "test title 1" },
+    junoResult: { artist: "test artist 1", title: "test title 1" },
     spotifyResult: {
       spotifyTracks: {
         items: [
@@ -278,21 +152,7 @@ export const tracksFromJunoMock = [
     }
   },
   {
-    junoResult: { artist: "test artist 2", artist: "test title 2" },
-    spotifyResult: {
-      spotifyTracks: {
-        items: [
-          {
-            id: 2,
-            name: "test name 2",
-            preview_url: "www.preview.com"
-          }
-        ]
-      }
-    }
-  },
-  {
-    junoResult: { artist: "test artist 1", artist: "test title 1" },
+    junoResult: { artist: "test artist 1", title: "test title 1" },
     spotifyResult: {
       spotifyTracks: {
         items: [
@@ -306,21 +166,7 @@ export const tracksFromJunoMock = [
     }
   },
   {
-    junoResult: { artist: "test artist 2", artist: "test title 2" },
-    spotifyResult: {
-      spotifyTracks: {
-        items: [
-          {
-            id: 2,
-            name: "test name 2",
-            preview_url: "www.preview.com"
-          }
-        ]
-      }
-    }
-  },
-  {
-    junoResult: { artist: "test artist 1", artist: "test title 1" },
+    junoResult: { artist: "test artist 1", title: "test title 1" },
     spotifyResult: {
       spotifyTracks: {
         items: [
@@ -334,69 +180,13 @@ export const tracksFromJunoMock = [
     }
   },
   {
-    junoResult: { artist: "test artist 2", artist: "test title 2" },
-    spotifyResult: {
-      spotifyTracks: {
-        items: [
-          {
-            id: 2,
-            name: "test name 2",
-            preview_url: "www.preview.com"
-          }
-        ]
-      }
-    }
-  },
-  {
-    junoResult: { artist: "test artist 1", artist: "test title 1" },
+    junoResult: { artist: "test artist 1", title: "test title 1" },
     spotifyResult: {
       spotifyTracks: {
         items: [
           {
             id: 1,
             name: "test name 1",
-            preview_url: "www.preview.com"
-          }
-        ]
-      }
-    }
-  },
-  {
-    junoResult: { artist: "test artist 2", artist: "test title 2" },
-    spotifyResult: {
-      spotifyTracks: {
-        items: [
-          {
-            id: 2,
-            name: "test name 2",
-            preview_url: "www.preview.com"
-          }
-        ]
-      }
-    }
-  },
-  {
-    junoResult: { artist: "test artist 1", artist: "test title 1" },
-    spotifyResult: {
-      spotifyTracks: {
-        items: [
-          {
-            id: 1,
-            name: "test name 1",
-            preview_url: "www.preview.com"
-          }
-        ]
-      }
-    }
-  },
-  {
-    junoResult: { artist: "test artist 2", artist: "test title 2" },
-    spotifyResult: {
-      spotifyTracks: {
-        items: [
-          {
-            id: 2,
-            name: "test name 2",
             preview_url: "www.preview.com"
           }
         ]
