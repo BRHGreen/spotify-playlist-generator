@@ -16,8 +16,7 @@ const Playlist = props => {
     const trackUris = props.tracksForSpotifyPlaylist.map(track => track.uri);
     axios
       .post("http://localhost:8888/create-playlist", {
-        // need to pass this down as props
-        playlistName,
+        playlistName: `PLG-${playlistName}`,
         playlistId: props.playlistId,
         accessToken: props.accessToken,
         trackUris
@@ -32,11 +31,6 @@ const Playlist = props => {
 
   const [containerStyle, setContainerStyle] = useState();
   const [playlistName, setPlaylistName] = useState();
-
-  const handleChanges = (e, type) => {
-    console.log("TCL: handleChanges -> e", e);
-    console.log("TCL: handleChanges -> type", type);
-  };
 
   return (
     props.tracksForSpotifyPlaylist.length > 0 && (

@@ -171,6 +171,7 @@ app.post("/track-names", function(req, res) {
     .then(response => {
       const html = response.data;
       const $ = cheerio.load(html);
+      const suggestedPlaylistName = $(".h-new").text();
       const tracks = $(".juno-chart > .jd-listing-item > .col-12");
       const trackArray = [];
 
@@ -186,7 +187,7 @@ app.post("/track-names", function(req, res) {
         }
       });
 
-      res.status(200).send(trackArray); // the status 200 is the default one, but this is how you can simply change it
+      res.status(200).send({ tracks: trackArray, suggestedPlaylistName }); // the status 200 is the default one, but this is how you can simply change it
     })
     .catch("error >>>", console.error);
 });

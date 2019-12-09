@@ -23,8 +23,8 @@ class App extends Component {
       tracksFromJuno: null,
       accessToken: token,
       tracksForSpotifyPlaylist: [],
-      playlistName: "bens-test-playlist 6",
-      playlistId: null
+      playlistId: null,
+      suggestedPlaylistName: ""
     };
   }
   getHashParams() {
@@ -65,18 +65,18 @@ class App extends Component {
   };
 
   getTracks = () => {
-    const { junoUrl } = this.state;
+    const { junoUrl, suggestedPlaylistName } = this.state;
     axios
       .post("http://localhost:8888/track-names", { junoUrl })
       .then(response => {
-        const tracksFromJuno = response.data.map((track, i) => ({
+        const tracksFromJuno = response.data.tracks.map((track, i) => ({
           id: i,
           junoResult: track
         }));
         if (response.status === 200) {
-          // TO DO: set state for whole array
           this.setState({
-            tracksFromJuno
+            tracksFromJuno,
+            suggestedPlaylistName
           });
           this.forceUpdate();
         }
@@ -107,19 +107,13 @@ class App extends Component {
     this.setState({ junoUrl: e.target.value });
   };
 
-  handlePlaylistNameChange = e => {
-    console.log("TCL: App -> handlePlaylistNameChange -> e", e);
-  };
-  handlePlaylistNameInputChange = e => {
-    console.log("TCL: App -> handlePlaylistNameInputChange -> e", e);
-  };
-
   render() {
     const {
       loggedIn,
       tracksForSpotifyPlaylist,
       tracksFromJuno,
-      junoUrl
+      junoUrl,
+      suggestedPlaylistName
     } = this.state;
 
     return (
