@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import classnames from "classnames";
 import axios from "axios";
 import TrackNames from "./TrackNames";
 import Playlist from "./Playlist";
@@ -24,7 +23,7 @@ class App extends Component {
       tracksFromJuno: null,
       accessToken: token,
       tracksForSpotifyPlaylist: [],
-      playlistName: "bens-test-playlist 5",
+      playlistName: "bens-test-playlist 6",
       playlistId: null
     };
   }
@@ -123,10 +122,6 @@ class App extends Component {
       junoUrl
     } = this.state;
 
-    const rowClass = classnames({
-      row: tracksForSpotifyPlaylist.length > 0
-    });
-
     return (
       <div className="App py-2">
         {!loggedIn && (
@@ -152,18 +147,18 @@ class App extends Component {
             className="row"
           >
             <TrackNames
-              tracksFromJuno={tracksFromJunoMock}
+              // tracksFromJuno={tracksFromJunoMock}
+              tracksFromJuno={tracksFromJuno}
               handleAddTrack={this.handleAddTrack}
-              tracksForSpotifyPlaylist={["bloop"]}
-              // tracksForSpotifyPlaylist={tracksForSpotifyPlaylist}
-              // tracksForSpotifyPlaylist={tracksForSpotifyPlaylist}
+              // tracksForSpotifyPlaylist={["bloop"]}
+              tracksForSpotifyPlaylist={tracksForSpotifyPlaylist}
             />
 
             <Playlist
               handleRemoveTrack={this.handleRemoveTrack}
-              tracksForSpotifyPlaylist={tracksForSpotifyPlaylistMock}
-              addTracksToSpotifyPlaylist={this.addTracksToSpotifyPlaylist}
-              // tracksForSpotifyPlaylist={tracksForSpotifyPlaylist}
+              // tracksForSpotifyPlaylist={tracksForSpotifyPlaylistMock}
+              tracksForSpotifyPlaylist={tracksForSpotifyPlaylist}
+              {...this.state}
             />
           </div>
         </div>

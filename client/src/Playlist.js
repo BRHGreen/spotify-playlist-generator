@@ -12,16 +12,14 @@ const getArtists = artists => {
 };
 
 const Playlist = props => {
-  addTracksToSpotifyPlaylist = () => {
-    const trackUris = this.state.tracksForSpotifyPlaylist.map(
-      track => track.uri
-    );
+  const addTracksToSpotifyPlaylist = () => {
+    const trackUris = props.tracksForSpotifyPlaylist.map(track => track.uri);
     axios
       .post("http://localhost:8888/create-playlist", {
         // need to pass this down as props
-        playlistName: this.state.playlistName,
-        playlistId: this.state.playlistId,
-        accessToken: this.state.accessToken,
+        playlistName: props.playlistName,
+        playlistId: props.playlistId,
+        accessToken: props.accessToken,
         trackUris
       })
       .then(data => {
@@ -33,13 +31,13 @@ const Playlist = props => {
   };
 
   const [containerStyle, setContainerStyle] = useState();
-  console.log("TCL: containerStyle", containerStyle);
+
   return (
     props.tracksForSpotifyPlaylist.length > 0 && (
       <div className="col col-md-4 col-lg-4">
         <Waypoint
           onLeave={() =>
-            setContainerStyle({ top: 0, position: "fixed", width: "31%" })
+            setContainerStyle({ top: "10px", position: "fixed", width: "31%" })
           }
           onEnter={() => setContainerStyle({})}
         />
@@ -59,7 +57,7 @@ const Playlist = props => {
               props.tracksForSpotifyPlaylist.length <= 0 || !props.loggedIn
             }
             className="btn btn-secondary my-2"
-            onClick={() => props.addTracksToSpotifyPlaylist()}
+            onClick={() => addTracksToSpotifyPlaylist()}
           >
             Create Spotify playlist
           </button>

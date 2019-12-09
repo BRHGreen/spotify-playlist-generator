@@ -6,7 +6,7 @@ const TrackNames = props => {
   const columnClass = classnames({
     "col col-md-8 col-lg-8": props.tracksForSpotifyPlaylist.length > 0
   });
-  console.log("TCL: props.tracksFromJuno", props.tracksFromJuno);
+
   return (
     <div className={columnClass}>
       {props.tracksFromJuno && (

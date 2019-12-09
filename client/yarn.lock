@@ -25,14 +25,7 @@
     esutils "^2.0.2"
     js-tokens "^4.0.0"
 
-"@babel/runtime@^7.1.2", "@babel/runtime@^7.6.3", "@babel/runtime@^7.7.2":
-  version "7.7.5"
-  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.7.5.tgz#4b087f183f5d83647744d4157f66199081d17a00"
-  integrity sha512-UXhClKWTL7/vlYX49kETXti6VbpPJK/pdsIOqUMhUUES/lqThpNTsmC/0aU/IW4uozDUx17axjeqel7SCYF6EQ==
-  dependencies:
-    regenerator-runtime "^0.13.2"
-
-"@babel/runtime@^7.4.4", "@babel/runtime@^7.5.5":
+"@babel/runtime@^7.1.2", "@babel/runtime@^7.4.4", "@babel/runtime@^7.5.5", "@babel/runtime@^7.6.3", "@babel/runtime@^7.7.2":
   version "7.7.6"
   resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.7.6.tgz#d18c511121aff1b4f2cd1d452f1bac9601dd830f"
   integrity sha512-BWAJxpNVa0QlE5gZdWjSxXtemZyZ9RmrmVozxt3NUXeZhVIJ5ANyqmMc0JDrivBZyxUuQvFxlvH4OWWOogGfUw==
@@ -908,9 +901,9 @@ babel-plugin-jest-hoist@^20.0.3:
   integrity sha1-r+3IU70/jcNUjqZx++adA8wsF2c=
 
 babel-plugin-macros@^2.0.0:
-  version "2.7.1"
-  resolved "https://registry.yarnpkg.com/babel-plugin-macros/-/babel-plugin-macros-2.7.1.tgz#ee294383c1a38f9d6535be3d89734824cb3ed415"
-  integrity sha512-HNM284amlKSQ6FddI4jLXD+XTqF0cTYOe5uemOIZxHJHnamC+OhFQ57rMF9sgnYhkJQptVl9U1SKVZsV9/GLQQ==
+  version "2.8.0"
+  resolved "https://registry.yarnpkg.com/babel-plugin-macros/-/babel-plugin-macros-2.8.0.tgz#0f958a7cc6556b1e65344465d99111a1e5e10138"
+  integrity sha512-SEP5kJpfGYqYKpBrj5XU3ahw5p5GOHJ0U5ssOSQ/WBVdwkD2Dzlce95exQTs3jOVWPPKLBN2rlEWkCK7dSmLvg==
   dependencies:
     "@babel/runtime" "^7.7.2"
     cosmiconfig "^6.0.0"
@@ -6998,15 +6991,10 @@ react-input-autosize@^2.2.1, react-input-autosize@^2.2.2:
   dependencies:
     prop-types "^15.5.8"
 
-react-is@^16.6.3:
+react-is@^16.6.3, react-is@^16.8.1:
   version "16.12.0"
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.12.0.tgz#2cc0fe0fba742d97fd527c42a13bec4eeb06241c"
   integrity sha512-rPCkf/mWBtKc97aLL9/txD8DZdemK0vkA3JMLShjlJB3Pj3s+lpf1KaBzMfQrAmhMQB0n1cU/SUGgKKBCe837Q==
-
-react-is@^16.8.1:
-  version "16.11.0"
-  resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.11.0.tgz#b85dfecd48ad1ce469ff558a882ca8e8313928fa"
-  integrity sha512-gbBVYR2p8mnriqAwWx9LbuUrShnAuSCNnuPGyc7GJrMVQtPDAh8iLpv7FRuMPFb56KkaVZIYSz1PrjI9q0QPCw==
 
 react-lifecycles-compat@^3.0.4:
   version "3.0.4"
