@@ -17,7 +17,7 @@ const Playlist = props => {
     axios
       .post("http://localhost:8888/create-playlist", {
         // need to pass this down as props
-        playlistName: props.playlistName,
+        playlistName,
         playlistId: props.playlistId,
         accessToken: props.accessToken,
         trackUris
@@ -31,21 +31,31 @@ const Playlist = props => {
   };
 
   const [containerStyle, setContainerStyle] = useState();
+  const [playlistName, setPlaylistName] = useState();
+
+  const handleChanges = (e, type) => {
+    console.log("TCL: handleChanges -> e", e);
+    console.log("TCL: handleChanges -> type", type);
+  };
 
   return (
     props.tracksForSpotifyPlaylist.length > 0 && (
       <div className="col col-md-4 col-lg-4">
         <Waypoint
           onLeave={() =>
-            setContainerStyle({ top: "10px", position: "fixed", width: "31%" })
+            setContainerStyle({
+              top: "10px",
+              right: "10px",
+              position: "fixed",
+              width: "31%"
+            })
           }
           onEnter={() => setContainerStyle({})}
         />
         <div style={containerStyle}>
           <CreatableSelect
             isClearable
-            onChange={props.handlePlaylistNameChange}
-            onInputChange={props.handleInputChange}
+            onChange={e => setPlaylistName(e.value)}
             options={[
               { value: "hi", label: "hello" },
               { value: "bye", label: "cheerio" }

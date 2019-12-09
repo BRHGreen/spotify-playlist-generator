@@ -147,11 +147,11 @@ class App extends Component {
             className="row"
           >
             <TrackNames
+              handleAddTrack={this.handleAddTrack}
+              // tracksForSpotifyPlaylist={tracksForSpotifyPlaylistMock}
+              tracksForSpotifyPlaylist={tracksForSpotifyPlaylist}
               // tracksFromJuno={tracksFromJunoMock}
               tracksFromJuno={tracksFromJuno}
-              handleAddTrack={this.handleAddTrack}
-              // tracksForSpotifyPlaylist={["bloop"]}
-              tracksForSpotifyPlaylist={tracksForSpotifyPlaylist}
             />
 
             <Playlist
