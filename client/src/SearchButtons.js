@@ -21,13 +21,6 @@ const SearchButtons = props => {
       >
         Search spotify
       </button>
-      <button
-        disabled={props.tracksForSpotifyPlaylist.length <= 0 || !props.loggedIn}
-        className="btn btn-secondary"
-        onClick={() => props.addTracksToSpotifyPlaylist()}
-      >
-        Create Spotify playlist
-      </button>
     </div>
   );
 };

@@ -104,31 +104,16 @@ class App extends Component {
     }));
   };
 
-  addTracksToSpotifyPlaylist = () => {
-    const trackUris = this.state.tracksForSpotifyPlaylist.map(
-      track => track.uri
-    );
-    axios
-      .post("http://localhost:8888/create-playlist", {
-        playlistName: this.state.playlistName,
-        playlistId: this.state.playlistId,
-        accessToken: this.state.accessToken,
-        trackUris
-      })
-      .then(data => {
-        this.setState({ playlistCreateStaus: "success" });
-      })
-      .catch(err => {
-        this.setState({ playlistCreateStaus: "fail" });
-      });
-  };
-
   handleJunoUrlChange = e => {
     this.setState({ junoUrl: e.target.value });
   };
 
-  handlePlaylistNameChange = () => {};
-  handlePlaylistNameInputChange = () => {};
+  handlePlaylistNameChange = e => {
+    console.log("TCL: App -> handlePlaylistNameChange -> e", e);
+  };
+  handlePlaylistNameInputChange = e => {
+    console.log("TCL: App -> handlePlaylistNameInputChange -> e", e);
+  };
 
   render() {
     const {
@@ -158,7 +143,6 @@ class App extends Component {
         <SearchButtons
           {...this.state}
           getTracks={this.getTracks}
-          addTracksToSpotifyPlaylist={this.addTracksToSpotifyPlaylist}
           searchSpotify={this.searchSpotify}
         />
 
@@ -178,6 +162,7 @@ class App extends Component {
             <Playlist
               handleRemoveTrack={this.handleRemoveTrack}
               tracksForSpotifyPlaylist={tracksForSpotifyPlaylistMock}
+              addTracksToSpotifyPlaylist={this.addTracksToSpotifyPlaylist}
               // tracksForSpotifyPlaylist={tracksForSpotifyPlaylist}
             />
           </div>

@@ -3,6 +3,7 @@ import classnames from "classnames";
 import { Icon } from "ray";
 import { Waypoint } from "react-waypoint";
 import CreatableSelect from "react-select/creatable";
+import axios from "axios";
 
 const getArtists = artists => {
   return artists.map(
@@ -11,6 +12,26 @@ const getArtists = artists => {
 };
 
 const Playlist = props => {
+  addTracksToSpotifyPlaylist = () => {
+    const trackUris = this.state.tracksForSpotifyPlaylist.map(
+      track => track.uri
+    );
+    axios
+      .post("http://localhost:8888/create-playlist", {
+        // need to pass this down as props
+        playlistName: this.state.playlistName,
+        playlistId: this.state.playlistId,
+        accessToken: this.state.accessToken,
+        trackUris
+      })
+      .then(data => {
+        this.setState({ playlistCreateStaus: "success" });
+      })
+      .catch(err => {
+        this.setState({ playlistCreateStaus: "fail" });
+      });
+  };
+
   const [containerStyle, setContainerStyle] = useState();
   console.log("TCL: containerStyle", containerStyle);
   return (
@@ -28,10 +49,20 @@ const Playlist = props => {
             onChange={props.handlePlaylistNameChange}
             onInputChange={props.handleInputChange}
             options={[
-              { value: "hi", name: "hello" },
-              { value: "bye", name: "cheerio" }
+              { value: "hi", label: "hello" },
+              { value: "bye", label: "cheerio" }
             ]}
           />
+
+          <button
+            disabled={
+              props.tracksForSpotifyPlaylist.length <= 0 || !props.loggedIn
+            }
+            className="btn btn-secondary my-2"
+            onClick={() => props.addTracksToSpotifyPlaylist()}
+          >
+            Create Spotify playlist
+          </button>
 
           {props.tracksForSpotifyPlaylist.map((e, i) => {
             return (
