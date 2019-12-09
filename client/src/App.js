@@ -69,6 +69,10 @@ class App extends Component {
     axios
       .post("http://localhost:8888/track-names", { junoUrl })
       .then(response => {
+        this.setState({
+          suggestedPlaylistName: response.data.suggestedPlaylistName
+        });
+        this.forceUpdate();
         const tracksFromJuno = response.data.tracks.map((track, i) => ({
           id: i,
           junoResult: track
