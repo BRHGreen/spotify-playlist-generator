@@ -1,7 +1,6 @@
 import React from "react";
 import classnames from "classnames";
 import { Icon } from "ray";
-import { Waypoint } from "react-waypoint";
 import CreatableSelect from "react-select/creatable";
 import axios from "axios";
 
@@ -15,19 +14,14 @@ class Playlist extends React.Component {
   state = {
     containerStyle: {},
     playlistName: "",
-    playlistCreateStaus: "",
-    susuggestedPlaylistName: ""
+    playlistCreateStaus: ""
   };
 
   componentDidUpdate(prevProps) {
-    const { suggestedPlaylistName } = this.props;
-    if (
-      suggestedPlaylistName &&
-      suggestedPlaylistName !== prevProps.suggestedPlaylistName
-    ) {
-      this.setState({ suggestedPlaylistName });
-      return;
+    if (this.props.suggestedPlaylistName !== prevProps.suggestedPlaylistName) {
+      this.setState({ playlistName: this.props.suggestedPlaylistName });
     }
+    return null;
   }
 
   addTracksToSpotifyPlaylist = () => {
@@ -50,27 +44,24 @@ class Playlist extends React.Component {
   };
 
   render() {
-    console.log(
-      "TCL: Playlist -> componentDidUpdate -> this.props",
-      this.state
-    );
+    console.log("TCL: Playlist -> render -> this.state", this.state);
     return (
       this.props.tracksForSpotifyPlaylist.length > 0 && (
         <div className="col col-md-4 col-lg-4">
-          <Waypoint
-            onLeave={this.setState({
-              containerStyle: {
-                top: "10px",
-                right: "10px",
-                position: "fixed",
-                width: "31%"
-              }
-            })}
-            onEnter={() => this.setState({ containerStyle: {} })}
-          />
-          <div style={this.state.containerStyle}>
+          <div
+            style={{
+              top: "108px",
+              right: "10px",
+              position: "fixed",
+              width: "31%"
+            }}
+          >
             <CreatableSelect
               isClearable
+              defaultValue={{
+                label: this.state.playlistName,
+                value: 0
+              }}
               onChange={e => this.setState({ playlistName: e.value })}
               options={[
                 { value: "hi", label: "hello" },
