@@ -5,9 +5,10 @@ import Playlist from "./Playlist";
 import SearchButtons from "./SearchButtons";
 import Input from "./Input";
 import { tracksForSpotifyPlaylistMock, tracksFromJunoMock } from "./mocks";
-
 import SpotifyWebApi from "spotify-web-api-js";
 const spotifyApi = new SpotifyWebApi();
+
+const isTestMode = true;
 
 class App extends Component {
   constructor() {
@@ -151,17 +152,22 @@ class App extends Component {
           >
             <TrackNames
               handleAddTrack={this.handleAddTrack}
-              // tracksForSpotifyPlaylist={tracksForSpotifyPlaylistMock}
-              tracksForSpotifyPlaylist={tracksForSpotifyPlaylist}
-              // tracksFromJuno={tracksFromJunoMock}
-              tracksFromJuno={tracksFromJuno}
+              tracksForSpotifyPlaylist={
+                isTestMode
+                  ? tracksForSpotifyPlaylistMock
+                  : tracksForSpotifyPlaylist
+              }
+              tracksFromJuno={isTestMode ? tracksFromJunoMock : tracksFromJuno}
             />
 
             <Playlist
               handleRemoveTrack={this.handleRemoveTrack}
-              // tracksForSpotifyPlaylist={tracksForSpotifyPlaylistMock}
-              tracksForSpotifyPlaylist={tracksForSpotifyPlaylist}
-              {...this.state}
+              loggedIn={loggedIn}
+              tracksForSpotifyPlaylist={
+                isTestMode
+                  ? tracksForSpotifyPlaylistMock
+                  : tracksForSpotifyPlaylist
+              }
             />
           </div>
         </div>

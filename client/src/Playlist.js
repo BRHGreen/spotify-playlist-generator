@@ -44,7 +44,10 @@ class Playlist extends React.Component {
   };
 
   render() {
-    console.log("TCL: Playlist -> render -> this.state", this.state);
+    console.log(
+      "TCL: Playlist -> render -> tracksForSpotifyPlaylist",
+      this.state.tracksForSpotifyPlaylist
+    );
     return (
       this.props.tracksForSpotifyPlaylist.length > 0 && (
         <div className="col col-md-4 col-lg-4">

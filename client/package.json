@@ -5,6 +5,7 @@
   "dependencies": {
     "axios": "^0.19.0",
     "classnames": "^2.2.6",
+    "config": "^3.2.4",
     "ray": "https://github.com/lightfulhelps/ray",
     "react": "^16.11.0",
     "react-dom": "^16.11.0",
