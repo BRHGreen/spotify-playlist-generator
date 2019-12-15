@@ -124,13 +124,16 @@ class App extends Component {
       loggedIn,
       tracksForSpotifyPlaylist,
       tracksFromJuno,
-      junoUrl
+      junoUrl,
+      suggestedPlaylistName
     } = this.state;
 
     const rowClass = classnames({
       row: tracksForSpotifyPlaylist.length > 0
     });
-
+    const columnClass = classnames({
+      "col col-md-8 col-lg-8": tracksForSpotifyPlaylist.length > 0
+    });
     return (
       <div className="App py-2">
         {!loggedIn && (
@@ -139,14 +142,20 @@ class App extends Component {
             Login to Spotify{" "}
           </a>
         )}
-        <Input
-          tracksForSpotifyPlaylist={
-            isTestMode ? tracksForSpotifyPlaylistMock : tracksForSpotifyPlaylist
-          }
-          label="Juno download URL"
-          junoUrl={junoUrl}
-          handleOnChange={e => this.handleJunoUrlChange(e)}
-        />
+        <div className={rowClass}>
+          <div className={columnClass}>
+            <Input
+              tracksForSpotifyPlaylist={
+                isTestMode
+                  ? tracksForSpotifyPlaylistMock
+                  : tracksForSpotifyPlaylist
+              }
+              label="Juno download URL"
+              junoUrl={junoUrl}
+              handleOnChange={e => this.handleJunoUrlChange(e)}
+            />
+          </div>
+        </div>
         <SearchButtons
           {...this.state}
           getTracks={this.getTracks}
@@ -173,6 +182,7 @@ class App extends Component {
                   ? tracksForSpotifyPlaylistMock
                   : tracksForSpotifyPlaylist
               }
+              suggestedPlaylistName={suggestedPlaylistName}
             />
           </div>
         </div>
