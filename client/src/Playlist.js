@@ -53,7 +53,7 @@ class Playlist extends React.Component {
         <div className="col col-md-4 col-lg-4">
           <div
             style={{
-              top: "108px",
+              top: "1rem",
               right: "10px",
               position: "fixed",
               width: "31%"

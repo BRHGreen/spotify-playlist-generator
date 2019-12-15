@@ -85,5 +85,80 @@ export const tracksFromJunoMock = [
         ]
       }
     }
+  },
+  {
+    junoResult: { artist: "test artist 1", title: "test title 1" },
+    spotifyResult: {
+      spotifyTracks: {
+        items: [
+          {
+            id: 1,
+            name: "test name 1",
+            preview_url: "www.preview.com",
+            artists: [{ name: "test artist 2" }]
+          }
+        ]
+      }
+    }
+  },
+  {
+    junoResult: { artist: "test artist 1", title: "test title 1" },
+    spotifyResult: {
+      spotifyTracks: {
+        items: [
+          {
+            id: 1,
+            name: "test name 1",
+            preview_url: "www.preview.com",
+            artists: [{ name: "test artist 2" }]
+          }
+        ]
+      }
+    }
+  },
+  {
+    junoResult: { artist: "test artist 1", title: "test title 1" },
+    spotifyResult: {
+      spotifyTracks: {
+        items: [
+          {
+            id: 1,
+            name: "test name 1",
+            preview_url: "www.preview.com",
+            artists: [{ name: "test artist 2" }]
+          }
+        ]
+      }
+    }
+  },
+  {
+    junoResult: { artist: "test artist 1", title: "test title 1" },
+    spotifyResult: {
+      spotifyTracks: {
+        items: [
+          {
+            id: 1,
+            name: "test name 1",
+            preview_url: "www.preview.com",
+            artists: [{ name: "test artist 2" }]
+          }
+        ]
+      }
+    }
+  },
+  {
+    junoResult: { artist: "test artist 1", title: "test title 1" },
+    spotifyResult: {
+      spotifyTracks: {
+        items: [
+          {
+            id: 1,
+            name: "test name 1",
+            preview_url: "www.preview.com",
+            artists: [{ name: "test artist 2" }]
+          }
+        ]
+      }
+    }
   }
 ];

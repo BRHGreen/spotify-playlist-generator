@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
+import classnames from "classnames";
 import TrackNames from "./TrackNames";
 import Playlist from "./Playlist";
 import SearchButtons from "./SearchButtons";
@@ -8,7 +9,7 @@ import { tracksForSpotifyPlaylistMock, tracksFromJunoMock } from "./mocks";
 import SpotifyWebApi from "spotify-web-api-js";
 const spotifyApi = new SpotifyWebApi();
 
-const isTestMode = true;
+const isTestMode = false;
 
 class App extends Component {
   constructor() {
@@ -86,9 +87,9 @@ class App extends Component {
           junoResult: track
         }));
         if (response.status === 200) {
-          this.setState(state => ({
+          this.setState({
             tracksFromJuno
-          }));
+          });
           this.forceUpdate();
         }
       })
@@ -126,6 +127,10 @@ class App extends Component {
       junoUrl
     } = this.state;
 
+    const rowClass = classnames({
+      row: tracksForSpotifyPlaylist.length > 0
+    });
+
     return (
       <div className="App py-2">
         {!loggedIn && (
@@ -135,6 +140,9 @@ class App extends Component {
           </a>
         )}
         <Input
+          tracksForSpotifyPlaylist={
+            isTestMode ? tracksForSpotifyPlaylistMock : tracksForSpotifyPlaylist
+          }
           label="Juno download URL"
           junoUrl={junoUrl}
           handleOnChange={e => this.handleJunoUrlChange(e)}
@@ -146,10 +154,7 @@ class App extends Component {
         />
 
         <div className="m-2">
-          <div
-            // className={rowClass}
-            className="row"
-          >
+          <div className={rowClass}>
             <TrackNames
               handleAddTrack={this.handleAddTrack}
               tracksForSpotifyPlaylist={
