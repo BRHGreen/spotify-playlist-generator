@@ -1,7 +1,6 @@
 import React from "react";
 
 const Input = props => {
-  console.log("TCL: props", props);
   return (
     <div className="input-group m-2">
       <div className="input-group-prepend">

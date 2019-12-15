@@ -235,8 +235,6 @@ app.post("/create-playlist", function(req, res) {
   };
 
   request.get(getOptions, function(error, response, body) {
-    console.log("TCL: getOptions", getOptions);
-    console.log("TCL: response", response);
     if (!error && response.statusCode === 200) {
       if (req.body.playlistId) {
         createPlaylist(req.body.playlistId);
@@ -278,9 +276,15 @@ app.post("/create-playlist", function(req, res) {
         };
         request.post(updateOptions, function(error, response, body) {
           if (!error) {
-            console.info("Success. Tracks were added to playlist", body);
+            res.send({
+              status: 201,
+              message: "Success. Tracks were added to playlist"
+            });
           } else {
-            console.error("error adding tracks to playlist", error);
+            res.send({
+              status: 500,
+              message: "Error. Tracks were not added to playlist."
+            });
           }
         });
       }

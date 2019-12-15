@@ -37,15 +37,18 @@ class Playlist extends React.Component {
         trackUris
       })
       .then(data => {
-        this.setState({ playlistCreateStaus: "success" });
+        this.setState({
+          playlistCreateStaus: "Your playlist has been created"
+        });
       })
       .catch(err => {
-        this.setState({ playlistCreateStaus: "fail" });
+        this.setState({
+          playlistCreateStaus: "You fucked it right up"
+        });
       });
   };
 
   render() {
-    console.log("TCL: Playlist -> render -> this.state", this.state);
     return (
       this.props.tracksForSpotifyPlaylist.length > 0 && (
         <div className="col col-md-4 col-lg-4">
@@ -64,7 +67,9 @@ class Playlist extends React.Component {
                 this.setState({ playlistName: e.target.value })
               }
             />
-
+            {this.state.playlistCreateStaus && (
+              <div>{this.state.playlistCreateStaus}</div>
+            )}
             <button
               disabled={
                 this.props.tracksForSpotifyPlaylist.length <= 0 ||
@@ -75,7 +80,7 @@ class Playlist extends React.Component {
             >
               Create Spotify playlist
             </button>
-
+            <div>{}</div>
             {this.props.tracksForSpotifyPlaylist.map((e, i) => {
               return (
                 <div
