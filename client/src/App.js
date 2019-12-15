@@ -125,7 +125,8 @@ class App extends Component {
       tracksForSpotifyPlaylist,
       tracksFromJuno,
       junoUrl,
-      suggestedPlaylistName
+      suggestedPlaylistName,
+      accessToken
     } = this.state;
 
     const rowClass = classnames({
@@ -145,13 +146,8 @@ class App extends Component {
         <div className={rowClass}>
           <div className={columnClass}>
             <Input
-              tracksForSpotifyPlaylist={
-                isTestMode
-                  ? tracksForSpotifyPlaylistMock
-                  : tracksForSpotifyPlaylist
-              }
               label="Juno download URL"
-              junoUrl={junoUrl}
+              value={junoUrl}
               handleOnChange={e => this.handleJunoUrlChange(e)}
             />
           </div>
@@ -183,6 +179,7 @@ class App extends Component {
                   : tracksForSpotifyPlaylist
               }
               suggestedPlaylistName={suggestedPlaylistName}
+              accessToken={accessToken}
             />
           </div>
         </div>

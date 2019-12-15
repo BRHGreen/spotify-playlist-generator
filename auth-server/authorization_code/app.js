@@ -235,6 +235,8 @@ app.post("/create-playlist", function(req, res) {
   };
 
   request.get(getOptions, function(error, response, body) {
+    console.log("TCL: getOptions", getOptions);
+    console.log("TCL: response", response);
     if (!error && response.statusCode === 200) {
       if (req.body.playlistId) {
         createPlaylist(req.body.playlistId);

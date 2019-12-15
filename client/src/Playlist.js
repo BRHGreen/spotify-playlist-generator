@@ -3,6 +3,7 @@ import classnames from "classnames";
 import { Icon } from "ray";
 import CreatableSelect from "react-select/creatable";
 import axios from "axios";
+import Input from "./Input";
 
 const getArtists = artists => {
   return artists.map(
@@ -44,10 +45,7 @@ class Playlist extends React.Component {
   };
 
   render() {
-    console.log(
-      "TCL: Playlist -> render -> tracksForSpotifyPlaylist",
-      this.state.tracksForSpotifyPlaylist
-    );
+    console.log("TCL: Playlist -> render -> this.state", this.state);
     return (
       this.props.tracksForSpotifyPlaylist.length > 0 && (
         <div className="col col-md-4 col-lg-4">
@@ -59,17 +57,12 @@ class Playlist extends React.Component {
               width: "31%"
             }}
           >
-            <CreatableSelect
-              isClearable
-              defaultValue={{
-                label: this.state.playlistName,
-                value: 0
-              }}
-              onChange={e => this.setState({ playlistName: e.value })}
-              options={[
-                { value: "hi", label: "hello" },
-                { value: "bye", label: "cheerio" }
-              ]}
+            <Input
+              label="Playlist name"
+              value={this.state.playlistName}
+              handleOnChange={e =>
+                this.setState({ playlistName: e.target.value })
+              }
             />
 
             <button

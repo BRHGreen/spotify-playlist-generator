@@ -1,6 +1,7 @@
 import React from "react";
 
 const Input = props => {
+  console.log("TCL: props", props);
   return (
     <div className="input-group m-2">
       <div className="input-group-prepend">
@@ -14,7 +15,7 @@ const Input = props => {
         aria-label="Default"
         aria-describedby="inputGroup-sizing-default"
         onChange={e => props.handleOnChange(e)}
-        value={props.junoUrl}
+        value={props.value}
       />
     </div>
   );
