@@ -2,7 +2,7 @@ import React from "react";
 
 const Input = props => {
   return (
-    <div className="input-group m-2">
+    <div className="input-group">
       <div className="input-group-prepend">
         <span className="input-group-text" id="inputGroup-sizing-default">
           {props.label}

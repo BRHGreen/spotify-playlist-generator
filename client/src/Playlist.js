@@ -1,7 +1,6 @@
 import React from "react";
 import classnames from "classnames";
 import { Icon } from "ray";
-import CreatableSelect from "react-select/creatable";
 import axios from "axios";
 import Input from "./Input";
 
