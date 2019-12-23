@@ -202,7 +202,7 @@ app.post("/search-for-tracks", function(req, res) {
   const tracksToGet = req.body.tracksFromJuno.map(track => {
     const parseSearchTerms = string =>
       string
-        .replace(/[^a-zA-Z0-9-]/g, " ")
+        .replace(/[^a-zA-Z0-9-'`.]|feat|with/g, " ")
         .split(" ")
         .filter(word => word !== "")
         .join("%20");
@@ -211,6 +211,7 @@ app.post("/search-for-tracks", function(req, res) {
     const artist = parseSearchTerms(track.junoResult.artist);
 
     const url = `https://api.spotify.com/v1/search?q=track:${title}%20artist:${artist}&type=track&market=GB`;
+    console.log("TCL: url", url);
 
     return axios.get(url, options);
   });
