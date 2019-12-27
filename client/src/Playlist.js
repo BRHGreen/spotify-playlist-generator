@@ -30,7 +30,7 @@ class Playlist extends React.Component {
     );
     axios
       .post("http://localhost:8888/create-playlist", {
-        playlistName: `PLG-${this.state.playlistName}`,
+        playlistName: this.state.playlistName,
         playlistId: this.props.playlistId,
         accessToken: this.props.accessToken,
         trackUris

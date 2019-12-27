@@ -2,6 +2,8 @@ import React from "react";
 import { Icon } from "ray";
 import classnames from "classnames";
 
+const filterTracks = () => {};
+
 const TrackNames = props => {
   const columnClass = classnames({
     "col col-md-8 col-lg-8": props.tracksForSpotifyPlaylist.length > 0
@@ -27,6 +29,8 @@ const TrackNames = props => {
                   </div>
                   {item.spotifyResult &&
                     item.spotifyResult.spotifyTracks.items.map(spotifyTrack => {
+                      // console.log("TCL: spotifyTrack", spotifyTrack);
+                      // debugger;
                       return (
                         <div
                           key={spotifyTrack.id}

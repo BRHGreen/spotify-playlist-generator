@@ -211,7 +211,6 @@ app.post("/search-for-tracks", function(req, res) {
     const artist = parseSearchTerms(track.junoResult.artist);
 
     const url = `https://api.spotify.com/v1/search?q=track:${title}%20artist:${artist}&type=track&market=GB`;
-    console.log("TCL: url", url);
 
     return axios.get(url, options);
   });
@@ -222,6 +221,7 @@ app.post("/search-for-tracks", function(req, res) {
         id: i,
         spotifyTracks: track.data.tracks
       }));
+      // const parsedBody = JSON.parse(tracksData);
       res.status(200).send(tracksData);
     })
     .catch(err => console.error("error >>>", err));
