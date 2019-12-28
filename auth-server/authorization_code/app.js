@@ -202,7 +202,7 @@ app.post("/search-for-tracks", function(req, res) {
   const tracksToGet = req.body.tracksFromJuno.map(track => {
     const parseSearchTerms = string =>
       string
-        .replace(/[^a-zA-Z0-9-'`.]|feat|with| x/g, " ")
+        .replace(/[^a-zA-Z0-9-'`.]|feat|with|/g, " ")
         .split(" ")
         .filter(word => word !== "" && word !== "x")
         .join("%20");
