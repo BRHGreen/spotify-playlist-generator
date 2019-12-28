@@ -8,22 +8,21 @@ const TrackNames = props => {
   });
 
   const filterTrackNames = trackNameArray => {
-    let indexOfPreviouslyAddedItem;
     return trackNameArray.reduce((filteredTracks, currentTrack) => {
-      const isFirstItteration = filteredTracks.length === 0;
-      const hasSameTrackName =
-        !isFirstItteration &&
-        currentTrack.name === filteredTracks[indexOfPreviouslyAddedItem].name;
+      const isFirstIteration = filteredTracks.length === 0;
+      const hasSameTrackName = filteredTracks.find(
+        e => e.name.toLowerCase() === currentTrack.name.toLowerCase()
+      );
       const hasSameArtistName =
-        !isFirstItteration &&
-        currentTrack.artists[0].name ===
-          filteredTracks[indexOfPreviouslyAddedItem].artists[0].name;
+        !isFirstIteration &&
+        filteredTracks.find(
+          e =>
+            e.artists[0].name.toLowerCase() ===
+            currentTrack.artists[0].name.toLowerCase()
+        );
 
-      if (isFirstItteration || !hasSameTrackName || !hasSameArtistName) {
+      if (isFirstIteration || !hasSameTrackName || !hasSameArtistName) {
         filteredTracks.push(currentTrack);
-        isFirstItteration
-          ? (indexOfPreviouslyAddedItem = 0)
-          : indexOfPreviouslyAddedItem++;
         return filteredTracks;
       }
       return filteredTracks;
