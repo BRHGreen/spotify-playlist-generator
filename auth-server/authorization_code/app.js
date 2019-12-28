@@ -202,9 +202,9 @@ app.post("/search-for-tracks", function(req, res) {
   const tracksToGet = req.body.tracksFromJuno.map(track => {
     const parseSearchTerms = string =>
       string
-        .replace(/[^a-zA-Z0-9-'`.]|feat|with/g, " ")
+        .replace(/[^a-zA-Z0-9-'`.]|feat|with| x/g, " ")
         .split(" ")
-        .filter(word => word !== "")
+        .filter(word => word !== "" && word !== "x")
         .join("%20");
 
     const title = parseSearchTerms(track.junoResult.title);
@@ -244,7 +244,7 @@ app.post("/create-playlist", function(req, res) {
         const createOptions = {
           url: `https://api.spotify.com/v1/users/${parsedBody.id}/playlists`,
           body: JSON.stringify({
-            name: req.body.playlistName,
+            name: `PLG-${req.body.playlistName}`,
             public: false
           }),
           dataType: "json",

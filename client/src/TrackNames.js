@@ -2,12 +2,33 @@ import React from "react";
 import { Icon } from "ray";
 import classnames from "classnames";
 
-const filterTracks = () => {};
-
 const TrackNames = props => {
   const columnClass = classnames({
     "col col-md-8 col-lg-8": props.tracksForSpotifyPlaylist.length > 0
   });
+
+  const filterTrackNames = trackNameArray => {
+    let indexOfPreviouslyAddedItem;
+    return trackNameArray.reduce((filteredTracks, currentTrack) => {
+      const isFirstItteration = filteredTracks.length === 0;
+      const hasSameTrackName =
+        !isFirstItteration &&
+        currentTrack.name === filteredTracks[indexOfPreviouslyAddedItem].name;
+      const hasSameArtistName =
+        !isFirstItteration &&
+        currentTrack.artists[0].name ===
+          filteredTracks[indexOfPreviouslyAddedItem].artists[0].name;
+
+      if (isFirstItteration || !hasSameTrackName || !hasSameArtistName) {
+        filteredTracks.push(currentTrack);
+        isFirstItteration
+          ? (indexOfPreviouslyAddedItem = 0)
+          : indexOfPreviouslyAddedItem++;
+        return filteredTracks;
+      }
+      return filteredTracks;
+    }, []);
+  };
 
   return (
     <div className={columnClass}>
@@ -28,9 +49,9 @@ const TrackNames = props => {
                     </div>
                   </div>
                   {item.spotifyResult &&
-                    item.spotifyResult.spotifyTracks.items.map(spotifyTrack => {
-                      // console.log("TCL: spotifyTrack", spotifyTrack);
-                      // debugger;
+                    filterTrackNames(
+                      item.spotifyResult.spotifyTracks.items
+                    ).map(spotifyTrack => {
                       return (
                         <div
                           key={spotifyTrack.id}
