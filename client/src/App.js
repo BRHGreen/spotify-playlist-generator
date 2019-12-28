@@ -21,8 +21,7 @@ class App extends Component {
     }
     this.state = {
       loggedIn: token ? true : false,
-      junoUrl:
-        "https://www.junodownload.com/charts/mixcloud/worldwidefm/whats-next-with-laurent-garnier-23-04-19/529522686?timein=105&utm_source=Mixcloud&utm_medium=html5&utm_campaign=mixcloud&ref=mixcloud&a_cid=44db7396",
+      junoUrl: "",
       tracksFromJuno: null,
       accessToken: token,
       tracksForSpotifyPlaylist: [],
