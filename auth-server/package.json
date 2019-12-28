@@ -15,7 +15,7 @@
     "cors": "^2.8.5",
     "express": "4.17",
     "querystring": "~0.2.0",
-    "request": "^2.88.0"
+    "request": "^2.47.0"
   },
   "devDependencies": {
     "nodemon": "^1.19.4"
